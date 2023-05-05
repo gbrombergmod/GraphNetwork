@@ -1,8 +1,6 @@
 package com.meti;
 
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -21,8 +19,7 @@ public class Main {
         var node = new Node(weight, bias);
 
         var reduce = data.entrySet().stream().reduce(node, (node1, entry) -> {
-            var input = entry.getKey();
-            var normalized = (double) input / (double) data.size();
+            var normalized = normalize(data, entry);
             var activated = forward(node1, normalized);
 
             var isEven = entry.getValue();
@@ -30,13 +27,12 @@ public class Main {
             var cost = 2d * (activated - expected);
             var activatedDerivative = activated * (1 - activated);
             var baseDerivative = cost * activatedDerivative;
-            var gradient = new Node(input, 1d).multiply(baseDerivative);
+            var gradient = new Node(normalized, 1d).multiply(baseDerivative);
             return node1.subtract(gradient.multiply(LEARNING_RATE));
-        }, (node12, node2) -> node2);
+        }, (previous, next) -> next);
 
         var totalCorrect = data.entrySet().stream().mapToInt(entry -> {
-            var input = entry.getKey();
-            var normalized = (double) input / (double) data.size();
+            var normalized = normalize(data, entry);
             var activated = forward(reduce, normalized);
 
             var isEven = entry.getValue();
@@ -50,6 +46,12 @@ public class Main {
         }).sum();
 
         System.out.println(totalCorrect);
+    }
+
+    private static double normalize(Map<Integer, Boolean> data, Map.Entry<Integer, Boolean> entry) {
+        var input = entry.getKey();
+        var normalized = (double) input / (double) data.size();
+        return normalized;
     }
 
     private static double forward(Node node, double input) {
