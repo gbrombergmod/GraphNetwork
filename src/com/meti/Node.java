@@ -26,4 +26,8 @@ public record Node(double weight, double bias) {
     public Node divide(double scalar) {
         return new Node(weight / scalar, bias / scalar);
     }
+
+    public Node copy() {
+        return new Node(weight, bias);
+    }
 }
