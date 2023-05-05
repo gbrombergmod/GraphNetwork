@@ -67,7 +67,7 @@ public class Main {
     }
 
     private static Network zero() {
-        return new Network(Node.zero(), Node.zero());
+        return new Network(Node.zero(), Node.zero(), Node.zero());
     }
 
     private static double sigmoidDerivative(double outputActivated) {
@@ -75,7 +75,7 @@ public class Main {
     }
 
     private static Network random() {
-        return new Network(Node.random(), Node.random());
+        return new Network(Node.random(), Node.random(), Node.random());
     }
 
     private static double normalize(Map<Integer, Boolean> data, Map.Entry<Integer, Boolean> entry) {
@@ -92,26 +92,26 @@ public class Main {
         return right;
     }
 
-    record Network(Node hidden, Node output) {
+    record Network(Node hidden, Node hidden1, Node output) {
 
         private Network withOutputGradient(Node gradient) {
-            return new Network(hidden, output.copy().add(gradient));
+            return new Network(hidden, hidden1, output.copy().add(gradient));
         }
 
         private Network withHiddenGradient(Node gradient) {
-            return new Network(hidden.copy().add(gradient), output);
+            return new Network(hidden.copy().add(gradient), hidden1, output);
         }
 
         public Network divide(double scalar) {
-            return new Network(hidden.divide(scalar), output.divide(scalar));
+            return new Network(hidden.divide(scalar), hidden1.divide(scalar), output.divide(scalar));
         }
 
         public Network multiply(double scalar) {
-            return new Network(hidden.multiply(scalar), output.multiply(scalar));
+            return new Network(hidden.multiply(scalar), hidden1.multiply(scalar), output.multiply(scalar));
         }
 
         public Network subtract(Network other) {
-            return new Network(hidden.subtract(other.hidden), output.subtract(other.output));
+            return new Network(hidden.subtract(other.hidden), hidden1.subtract(other.hidden1), output.subtract(other.output));
         }
     }
 }
