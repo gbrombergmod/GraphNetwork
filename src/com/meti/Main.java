@@ -18,9 +18,9 @@ public class Main {
         var bias = Math.random();
         var node = new Node(weight, bias);
 
-        var reduce = data.entrySet().stream().reduce(node, (node1, entry) -> {
+        var gradientSum = data.entrySet().stream().reduce(Node.zero(), (gradientSum1, entry) -> {
             var normalized = normalize(data, entry);
-            var activated = forward(node1, normalized);
+            var activated = forward(node, normalized);
 
             var isEven = entry.getValue();
             var expected = isEven ? 0d : 1d;
@@ -28,12 +28,14 @@ public class Main {
             var activatedDerivative = activated * (1 - activated);
             var baseDerivative = cost * activatedDerivative;
             var gradient = new Node(normalized, 1d).multiply(baseDerivative);
-            return node1.subtract(gradient.multiply(LEARNING_RATE));
+            return gradientSum1.add(gradient);
         }, (previous, next) -> next);
+
+        var trained = node.subtract(gradientSum.divide(data.size()).multiply(LEARNING_RATE));
 
         var totalCorrect = data.entrySet().stream().mapToInt(entry -> {
             var normalized = normalize(data, entry);
-            var activated = forward(reduce, normalized);
+            var activated = forward(trained, normalized);
 
             var isEven = entry.getValue();
             if (isEven && activated < 0.5) {
@@ -50,8 +52,7 @@ public class Main {
 
     private static double normalize(Map<Integer, Boolean> data, Map.Entry<Integer, Boolean> entry) {
         var input = entry.getKey();
-        var normalized = (double) input / (double) data.size();
-        return normalized;
+        return (double) input / (double) data.size();
     }
 
     private static double forward(Node node, double input) {
