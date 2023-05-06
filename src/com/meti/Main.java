@@ -15,16 +15,16 @@ public class Main {
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), key -> key % 2 == 0));
 
-        var node = Node.random();
-        System.out.println(node);
+        var network = Network.random();
+        System.out.println(network);
 
         var trained = data.entrySet()
                 .stream()
                 .collect(Collectors.groupingBy(entry -> entry.getKey() % BATCH_COUNT))
-                .values().stream().reduce(node, (node1, batch) -> {
+                .values().stream().reduce(network, (network1, batch) -> {
                     var gradientSum = batch.stream().reduce(Node.zero(), (gradientSum1, entry) -> {
                         var input = normalize(data, entry);
-                        var activated = node1.forward(input);
+                        var activated = network1.output.forward(input);
 
                         var isEven = entry.getValue();
                         var expected = isEven ? 0d : 1d;
@@ -36,14 +36,14 @@ public class Main {
                     }, Main::selectRight);
 
                     var gradient = gradientSum.divide(data.size());
-                    var newNode = node1.subtract(gradient.multiply(LEARNING_RATE));
+                    var newNode = network1.output.subtract(gradient.multiply(LEARNING_RATE));
                     System.out.println(newNode);
-                    return newNode;
+                    return network1;
                 }, Main::selectRight);
 
         var totalCorrect = data.entrySet().stream().mapToInt(entry -> {
             var input = normalize(data, entry);
-            var result = trained.forward(input);
+            var result = trained.output.forward(input);
             var isEven = entry.getValue();
             if (isEven && result < 0.5) {
                 return 1;
@@ -63,8 +63,8 @@ public class Main {
         return key / (double) data.size();
     }
 
-    private static Node selectRight(Node node, Node node1) {
-        return node1;
+    private static <T> T selectRight(T t, T t1) {
+        return t1;
     }
 
 
@@ -98,6 +98,14 @@ public class Main {
 
         public Node subtract(Node other) {
             return new Node(weight - other.weight, bias - other.bias);
+        }
+    }
+
+    private record Network(Node hidden, Node output) {
+        private static Network random() {
+            var hidden = Node.random();
+            var node = Node.random();
+            return new Network(hidden, node);
         }
     }
 }

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Fix reduction">
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Add some meaningful output">
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +50,11 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.meti" />
+    </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.meti.Main.Network" />
       <recent name="com.meti.Main.Node" />
       <recent name="com.meti.Node" />
     </key>
@@ -79,7 +83,7 @@
       <updated>1683310237914</updated>
       <workItem from="1683310238840" duration="4334000" />
       <workItem from="1683324153898" duration="2425000" />
-      <workItem from="1683412722985" duration="2284000" />
+      <workItem from="1683412722985" duration="2999000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -172,7 +176,21 @@
       <option name="project" value="LOCAL" />
       <updated>1683414644593</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Fix reduction">
+      <created>1683415046376</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1683415046376</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Add some meaningful output">
+      <created>1683415252149</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1683415252149</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,6 +209,7 @@
     <MESSAGE value="Add simple node" />
     <MESSAGE value="Add batches" />
     <MESSAGE value="Fix reduction" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix reduction" />
+    <MESSAGE value="Add some meaningful output" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add some meaningful output" />
   </component>
 </project>
