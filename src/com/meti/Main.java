@@ -1,5 +1,6 @@
 package com.meti;
 
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -20,11 +21,11 @@ public class Main {
         data.entrySet()
                 .stream()
                 .collect(Collectors.groupingBy(entry -> entry.getKey() % BATCH_COUNT))
-                .values().forEach(batch -> {
+                .values().stream().reduce(node, (node1, batch) -> {
                     var gradientSum = batch.stream().reduce(Node.zero(), (gradientSum1, entry) -> {
                         var key = (double) entry.getKey();
                         var input = key / (double) data.size();
-                        var evaluated = node.weight * input + node.bias;
+                        var evaluated = node1.weight * input + node1.bias;
                         var activated = 1d / (1d + Math.pow(Math.E, -evaluated));
 
                         var isEven = entry.getValue();
@@ -37,9 +38,10 @@ public class Main {
                     }, (previous, next) -> next);
 
                     var gradient = gradientSum.divide(data.size());
-                    var newNode = node.subtract(gradient.multiply(LEARNING_RATE));
+                    var newNode = node1.subtract(gradient.multiply(LEARNING_RATE));
                     System.out.println(newNode);
-                });
+                    return newNode;
+                }, (BinaryOperator<Node>) (node12, node2) -> node2);
     }
 
     private record Node(double weight, double bias) {
@@ -50,8 +52,7 @@ public class Main {
         private static Node random() {
             var weight = Math.random();
             var bias = Math.random();
-            var node = new Node(weight, bias);
-            return node;
+            return new Node(weight, bias);
         }
 
         public Node multiply(double scalar) {
