@@ -32,7 +32,7 @@ public class Main {
                         var costDerivative = 2 * (outputValue - expected);
 
                         var outputActivated = sigmoidDerivative(outputValue);
-                        var outputBase = costDerivative * okutputActivated;
+                        var outputBase = costDerivative * outputActivated;
                         var outputGradient = new Node(hiddenValue, 1d).multiply(outputBase);
 
                         var hiddenActivated = sigmoidDerivative(hiddenValue);
