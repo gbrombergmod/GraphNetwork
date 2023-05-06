@@ -25,22 +25,30 @@ public class Main {
                     var gradientSum = batch.stream().reduce(zero(), (gradientSumNetwork1, entry) -> {
                         var input = normalize(data, entry);
                         var hiddenValue = network1.hidden.forward(input);
-                        var outputValue = network1.output.forward(hiddenValue);
+                        var evenValue = network1.even.forward(hiddenValue);
+                        var oddValue = network1.odd.forward(hiddenValue);
 
                         var isEven = entry.getValue();
-                        var expected = isEven ? 0d : 1d;
-                        var costDerivative = 2 * (outputValue - expected);
+                        var expectedEven = isEven ? 1d : 0d;
+                        var expectedOdd = isEven ? 0d : 1d;
 
-                        var outputActivated = sigmoidDerivative(outputValue);
-                        var outputBase = costDerivative * outputActivated;
-                        var outputGradient = new Node(hiddenValue, 1d).multiply(outputBase);
+                        var costDerivative = 2 * (evenValue - expectedEven + oddValue + expectedOdd);
+
+                        var evenActivated = sigmoidDerivative(evenValue);
+                        var evenBase = costDerivative * evenActivated;
+                        var evenGradient = new Node(hiddenValue, 1d).multiply(evenBase);
+
+                        var oddActivated = sigmoidDerivative(oddValue);
+                        var oddBase = costDerivative * oddActivated;
+                        var oddGradient = new Node(hiddenValue, 1d).multiply(oddBase);
 
                         var hiddenActivated = sigmoidDerivative(hiddenValue);
-                        var hiddenBase = outputBase * network.output.weight * hiddenActivated;
+                        var hiddenBase = evenBase * network.even.weight * hiddenActivated;
                         var hiddenGradient = new Node(input, 1d).multiply(hiddenBase);
 
                         return gradientSumNetwork1
-                                .getWithOutput(outputGradient)
+                                .withEven(evenGradient)
+                                .withOdd(oddGradient)
                                 .withHidden(hiddenGradient);
                     }, Main::selectRight);
 
@@ -52,11 +60,14 @@ public class Main {
 
         var totalCorrect = data.entrySet().stream().mapToInt(entry -> {
             var input = normalize(data, entry);
-            var result = trained.output.forward(input);
+            var hiddenValue = trained.hidden.forward(input);
+            var evenValue = trained.even.forward(hiddenValue);
+            var oddValue = trained.odd.forward(hiddenValue);
+
             var isEven = entry.getValue();
-            if (isEven && result < 0.5) {
+            if (isEven && evenValue > oddValue) {
                 return 1;
-            } else if (!isEven && result >= 0.5) {
+            } else if (!isEven && evenValue < oddValue) {
                 return 1;
             } else {
                 return 0;
@@ -68,7 +79,7 @@ public class Main {
     }
 
     private static Network zero() {
-        return new Network(Node.zero(), Node.zero());
+        return new Network(Node.zero(), Node.zero(), Node.zero());
     }
 
     private static double sigmoidDerivative(double hiddenValue) {
@@ -118,33 +129,40 @@ public class Main {
         }
     }
 
-    private record Network(Node hidden, Node output) {
+    private record Network(Node hidden, Node even, Node odd) {
         private static Network random() {
-            var hidden = Node.random();
-            var node = Node.random();
-            return new Network(hidden, node);
+            return new Network(Node.random(), Node.random(), Node.random());
         }
 
-        private Network getWithOutput(Node outputGradient) {
-            var newOutput = this.output.add(outputGradient);
-            return new Network(this.hidden, newOutput);
+        private Network withEven(Node outputGradient) {
+            return new Network(this.hidden, this.even.add(outputGradient), this.odd);
         }
 
         private Network withHidden(Node node) {
             var newHidden = hidden.add(node);
-            return new Network(newHidden, output);
+            return new Network(newHidden, even, odd);
         }
 
         public Network divide(double scalar) {
-            return new Network(hidden.divide(scalar), output.divide(scalar));
+            return new Network(hidden.divide(scalar),
+                    even.divide(scalar),
+                    odd.divide(scalar));
         }
 
         public Network multiply(double scalar) {
-            return new Network(hidden.multiply(scalar), output.divide(scalar));
+            return new Network(hidden.multiply(scalar),
+                    even.divide(scalar),
+                    odd.divide(scalar));
         }
 
         public Network subtract(Network other) {
-            return new Network(hidden.subtract(other.hidden), output.subtract(other.output));
+            return new Network(hidden.subtract(other.hidden),
+                    even.subtract(other.even),
+                    odd.subtract(other.odd));
+        }
+
+        public Network withOdd(Node odd) {
+            return new Network(hidden, even, odd);
         }
     }
 }
