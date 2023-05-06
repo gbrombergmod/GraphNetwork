@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Add hidden1 node to network">
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Add Main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Node.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +79,7 @@
       <updated>1683310237914</updated>
       <workItem from="1683310238840" duration="4334000" />
       <workItem from="1683324153898" duration="2425000" />
-      <workItem from="1683412722985" duration="348000" />
+      <workItem from="1683412722985" duration="1432000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -138,14 +137,27 @@
       <option name="project" value="LOCAL" />
       <updated>1683324742401</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Kaboom">
+      <created>1683413095903</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1683413095903</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Add Main">
+      <created>1683413224167</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1683413224167</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add Main" />
     <MESSAGE value="Add base code" />
     <MESSAGE value="Train with basic backprop" />
     <MESSAGE value="Add simple backprop" />
@@ -153,6 +165,8 @@
     <MESSAGE value="Introduce chunks" />
     <MESSAGE value="Fix vector addition" />
     <MESSAGE value="Add hidden1 node to network" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add hidden1 node to network" />
+    <MESSAGE value="Kaboom" />
+    <MESSAGE value="Add Main" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Main" />
   </component>
 </project>
