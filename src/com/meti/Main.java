@@ -1,13 +1,12 @@
 package com.meti;
 
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Main {
 
-    public static final double LEARNING_RATE = 0.1d;
+    public static final double LEARNING_RATE = 1d;
     public static final int BATCH_COUNT = 10;
 
     public static void main(String[] args) {
@@ -35,14 +34,19 @@ public class Main {
                         var baseDerivative = costDerivative * activatedDerivative;
                         var gradient = new Node(input, 1d).multiply(baseDerivative);
                         return gradientSum1.add(gradient);
-                    }, (previous, next) -> next);
+                    }, Main::selectRight);
 
                     var gradient = gradientSum.divide(data.size());
                     var newNode = node1.subtract(gradient.multiply(LEARNING_RATE));
                     System.out.println(newNode);
                     return newNode;
-                }, (BinaryOperator<Node>) (node12, node2) -> node2);
+                }, Main::selectRight);
     }
+
+    private static Node selectRight(Node node, Node node1) {
+        return node1;
+    }
+
 
     private record Node(double weight, double bias) {
         public static Node zero() {
