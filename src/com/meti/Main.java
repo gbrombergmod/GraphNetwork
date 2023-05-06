@@ -22,23 +22,32 @@ public class Main {
                 .stream()
                 .collect(Collectors.groupingBy(entry -> entry.getKey() % BATCH_COUNT))
                 .values().stream().reduce(network, (network1, batch) -> {
-                    var gradientSum = batch.stream().reduce(Node.zero(), (gradientSum1, entry) -> {
+                    var gradientSum = batch.stream().reduce(zero(), (gradientSumNetwork1, entry) -> {
                         var input = normalize(data, entry);
-                        var activated = network1.output.forward(input);
+                        var hiddenValue = network1.hidden.forward(input);
+                        var outputValue = network1.output.forward(hiddenValue);
 
                         var isEven = entry.getValue();
                         var expected = isEven ? 0d : 1d;
-                        var costDerivative = 2 * (activated - expected);
-                        var activatedDerivative = activated * (1 - activated);
-                        var baseDerivative = costDerivative * activatedDerivative;
-                        var gradient = new Node(input, 1d).multiply(baseDerivative);
-                        return gradientSum1.add(gradient);
+                        var costDerivative = 2 * (outputValue - expected);
+
+                        var outputActivated = sigmoidDerivative(outputValue);
+                        var outputBase = costDerivative * okutputActivated;
+                        var outputGradient = new Node(hiddenValue, 1d).multiply(outputBase);
+
+                        var hiddenActivated = sigmoidDerivative(hiddenValue);
+                        var hiddenBase = outputBase * network.output.weight * hiddenActivated;
+                        var hiddenGradient = new Node(input, 1d).multiply(hiddenBase);
+
+                        return gradientSumNetwork1
+                                .getWithOutput(outputGradient)
+                                .withHidden(hiddenGradient);
                     }, Main::selectRight);
 
                     var gradient = gradientSum.divide(data.size());
-                    var newNode = network1.output.subtract(gradient.multiply(LEARNING_RATE));
+                    var newNode = network1.subtract(gradient.multiply(LEARNING_RATE));
                     System.out.println(newNode);
-                    return network1;
+                    return newNode;
                 }, Main::selectRight);
 
         var totalCorrect = data.entrySet().stream().mapToInt(entry -> {
@@ -56,6 +65,14 @@ public class Main {
 
         var percentage = (double) totalCorrect / (double) data.size();
         System.out.println((percentage * 100) + "%");
+    }
+
+    private static Network zero() {
+        return new Network(Node.zero(), Node.zero());
+    }
+
+    private static double sigmoidDerivative(double hiddenValue) {
+        return hiddenValue * (1 - hiddenValue);
     }
 
     private static double normalize(Map<Integer, Boolean> data, Map.Entry<Integer, Boolean> entry) {
@@ -106,6 +123,28 @@ public class Main {
             var hidden = Node.random();
             var node = Node.random();
             return new Network(hidden, node);
+        }
+
+        private Network getWithOutput(Node outputGradient) {
+            var newOutput = this.output.add(outputGradient);
+            return new Network(this.hidden, newOutput);
+        }
+
+        private Network withHidden(Node node) {
+            var newHidden = hidden.add(node);
+            return new Network(newHidden, output);
+        }
+
+        public Network divide(double scalar) {
+            return new Network(hidden.divide(scalar), output.divide(scalar));
+        }
+
+        public Network multiply(double scalar) {
+            return new Network(hidden.multiply(scalar), output.divide(scalar));
+        }
+
+        public Network subtract(Network other) {
+            return new Network(hidden.subtract(other.hidden), output.subtract(other.output));
         }
     }
 }
