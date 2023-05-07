@@ -1,7 +1,9 @@
 package com.meti;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,9 +26,13 @@ public class Main {
                 .values().stream().reduce(network, (network1, batch) -> {
                     var gradientSum = batch.stream().reduce(zero(), (gradientSumNetwork1, entry) -> {
                         var input = normalize(data, entry);
-                        var hiddenValue = network1.hidden.forward(input);
-                        var evenValue = network1.even.forward(hiddenValue);
-                        var oddValue = network1.odd.forward(hiddenValue);
+                        var inputVector = Vector.from(input);
+
+                        var hiddenValue = network1.hidden.forward(inputVector);
+                        var hiddenVector = Vector.from(hiddenValue);
+
+                        var evenValue = network1.even.forward(hiddenVector);
+                        var oddValue = network1.odd.forward(hiddenVector);
 
                         var isEven = entry.getValue();
                         var expectedEven = isEven ? 1d : 0d;
@@ -36,15 +42,17 @@ public class Main {
 
                         var evenActivated = sigmoidDerivative(evenValue);
                         var evenBase = costDerivative * evenActivated;
-                        var evenGradient = new Node(hiddenValue, 1d).multiply(evenBase);
+                        var evenGradient = new Node(hiddenVector, 1d).multiply(evenBase);
 
                         var oddActivated = sigmoidDerivative(oddValue);
                         var oddBase = costDerivative * oddActivated;
-                        var oddGradient = new Node(hiddenValue, 1d).multiply(oddBase);
+                        var oddGradient = new Node(hiddenVector, 1d).multiply(oddBase);
 
                         var hiddenActivated = sigmoidDerivative(hiddenValue);
-                        var hiddenBase = evenBase * network.even.weight * hiddenActivated;
-                        var hiddenGradient = new Node(input, 1d).multiply(hiddenBase);
+                        var hiddenBase = (evenBase * network.even.weight.apply(0) +
+                                          oddBase * network.odd.weight.apply(0)) * hiddenActivated;
+
+                        var hiddenGradient = new Node(inputVector, 1d).multiply(hiddenBase);
 
                         return gradientSumNetwork1
                                 .withEven(evenGradient)
@@ -60,9 +68,13 @@ public class Main {
 
         var totalCorrect = data.entrySet().stream().mapToInt(entry -> {
             var input = normalize(data, entry);
-            var hiddenValue = trained.hidden.forward(input);
-            var evenValue = trained.even.forward(hiddenValue);
-            var oddValue = trained.odd.forward(hiddenValue);
+            var inputVector = Vector.from(input);
+
+            var hiddenValue = trained.hidden.forward(inputVector);
+            var hiddenVector = Vector.from(hiddenValue);
+
+            var evenValue = trained.even.forward(hiddenVector);
+            var oddValue = trained.odd.forward(hiddenVector);
 
             var isEven = entry.getValue();
             if (isEven && evenValue > oddValue) {
@@ -95,29 +107,74 @@ public class Main {
         return t1;
     }
 
+    private record Vector(List<Double> values) {
 
-    private record Node(double weight, double bias) {
+        public static Vector zero(int size) {
+            return supply(size, index -> 0d);
+        }
+
+        private static Vector supply(int size, IntFunction<Double> supplier) {
+            return new Vector(IntStream.range(0, size)
+                    .mapToObj(supplier)
+                    .toList());
+        }
+
+        public static Vector random(int size) {
+            return supply(size, index -> Math.random());
+        }
+
+        public static Vector from(double value) {
+            return new Vector(List.of(value));
+        }
+
+        private double apply(int index) {
+            return values.get(index);
+        }
+
+        public Vector multiply(Vector other) {
+            return supply(values.size(), index -> values.get(index) * other.apply(index));
+        }
+
+        public double sum() {
+            return values.stream()
+                    .mapToDouble(value -> value)
+                    .sum();
+        }
+
+        public Vector multiply(double scalar) {
+            return supply(values.size(), index -> values.get(index) * scalar);
+        }
+
+        public Vector add(Vector vector) {
+            return supply(values.size(), index -> values.get(index) + vector.apply(index));
+        }
+
+        public Vector negate() {
+            return supply(values.size(), index -> -values.get(index));
+        }
+    }
+
+    private record Node(Vector weight, double bias) {
         public static Node zero() {
-            return new Node(0, 0);
+            return new Node(Vector.zero(1), 0);
         }
 
         private static Node random() {
-            var weight = Math.random();
             var bias = Math.random();
-            return new Node(weight, bias);
+            return new Node(Vector.random(1), bias);
         }
 
-        private double forward(double input) {
-            var evaluated = this.weight * input + this.bias;
+        private double forward(Vector input) {
+            var evaluated = this.weight.multiply(input).sum() + this.bias;
             return 1d / (1d + Math.pow(Math.E, -evaluated));
         }
 
         public Node multiply(double scalar) {
-            return new Node(weight * scalar, bias * scalar);
+            return new Node(weight.multiply(scalar), bias * scalar);
         }
 
         public Node add(Node other) {
-            return new Node(weight + other.weight, bias + other.bias);
+            return new Node(weight.add(other.weight), bias + other.bias);
         }
 
         public Node divide(double scalar) {
@@ -125,7 +182,7 @@ public class Main {
         }
 
         public Node subtract(Node other) {
-            return new Node(weight - other.weight, bias - other.bias);
+            return new Node(weight.add(other.weight.negate()), bias - other.bias);
         }
     }
 
