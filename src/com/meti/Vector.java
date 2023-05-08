@@ -63,4 +63,8 @@ record Vector(List<Double> values) {
     public Vector negate() {
         return supply(values.size(), index -> -values.get(index));
     }
+
+    public Vector subtract(Vector other) {
+        return add(other.negate());
+    }
 }

@@ -45,7 +45,9 @@ public class Main {
                         var expectedEven = isEven ? 1d : 0d;
                         var expectedOdd = isEven ? 0d : 1d;
 
-                        var costDerivative = 2 * (results.apply(EVEN_ID) - expectedEven + results.apply(ODD_ID) + expectedOdd);
+                        var actual = results.locate(List.of(EVEN_ID, ODD_ID));
+                        var expected = Vector.from(expectedEven, expectedOdd);
+                        var costDerivative = 2 * (expected.subtract(actual).sum());
 
                         var evenActivated = sigmoidDerivative(results.apply(EVEN_ID));
                         var evenBase = costDerivative * evenActivated;
