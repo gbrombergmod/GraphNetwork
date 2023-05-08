@@ -128,7 +128,7 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public NetworkState trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch, Function<Boolean, Vector> expected) {
+    public <T> NetworkState trainBatch(Data<T> trainingData, List<Map.Entry<Integer, T>> batch, Function<T, Vector> expected) {
         var state = batch.stream()
                 .reduce(new NetworkState(zero(), 0d), (gradientSum, entry) -> {
                     return train(trainingData, entry.getKey(), entry.getValue(), expected);
@@ -157,8 +157,7 @@ public class GraphNetwork implements Network {
         return forward(inputVector, topology).locate(layers.get(layers.size() - 1));
     }
 
-    @Override
-    public NetworkState train(Data data, int key, boolean value, Function<Boolean, Vector> expected) {
+    public <T> NetworkState train(Data<T> data, int key, T value, Function<T, Vector> expected) {
         var lists = computeByDepthsForward();
         var topology = lists
                 .stream()

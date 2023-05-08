@@ -22,4 +22,8 @@ public class NetMath {
     static double randomFloat() {
         return Math.random();
     }
+
+    public static double logit(double value) {
+        return Math.log(value / (1d - value));
+    }
 }

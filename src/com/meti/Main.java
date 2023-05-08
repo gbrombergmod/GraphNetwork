@@ -16,9 +16,9 @@ public class Main {
     public static void main(String[] args) {
         var data = IntStream.range(0, 1000)
                 .boxed()
-                .collect(Collectors.toMap(Function.identity(), key -> key % 2 == 0));
+                .collect(Collectors.toMap(Function.identity(), key -> key * key));
 
-        var trainingData = new Data(data);
+        var trainingData = new Data<>(data);
         var network = random();
         measure(trainingData, network);
 
@@ -37,15 +37,13 @@ public class Main {
         measure(trainingData, trained);
     }
 
-    private static void measure(Data trainingData, Network trained) {
+    private static void measure(Data<Integer> trainingData, Network trained) {
         var totalCorrect = trainingData.stream().mapToInt(entry -> {
             var outputVector = trained.forward(trainingData, entry.getKey());
-            var output = outputVector.apply(0);
+            var actual = outputVector.apply(0);
+            var expected = entry.getValue();
 
-            var isEven = entry.getValue();
-            if (isEven && output < 0.5) {
-                return 1;
-            } else if (!isEven && output > 0.5) {
+            if (Math.abs(((int) actual) - expected) < 10) {
                 return 1;
             } else {
                 return 0;
@@ -83,8 +81,7 @@ public class Main {
                 }).collect(Collectors.toList());
     }
 
-    static Vector computeExpected(boolean value) {
-        var expectedOdd = value ? 0d : 1d;
-        return Vector.from(expectedOdd);
+    static Vector computeExpected(int value) {
+        return Vector.from(value);
     }
 }

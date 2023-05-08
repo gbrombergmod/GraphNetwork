@@ -6,11 +6,9 @@ import java.util.function.Function;
 
 public interface Network {
 
-    NetworkState trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch, Function<Boolean, Vector> expected);
+    <T> NetworkState trainBatch(Data<T> trainingData, List<Map.Entry<Integer, T>> batch, Function<T, Vector> expected);
 
-    Vector forward(Data data, int rawInput);
-
-    NetworkState train(Data data, int key, boolean value, Function<Boolean, Vector> mapper);
+    <T> Vector forward(Data<T> data, int rawInput);
 
     Gradients backward(Vector inputVector, List<Integer> topology, Calculations results, double costDerivative);
 
