@@ -15,14 +15,14 @@ public class Main {
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), key -> key % 2 == 0));
 
-        var network = Network.random();
+        var network = TempNetwork.random();
         System.out.println(network);
 
         var trained = data.entrySet()
                 .stream()
                 .collect(Collectors.groupingBy(entry -> entry.getKey() % BATCH_COUNT))
                 .values().stream().reduce(network, (network1, batch) -> {
-                    var gradientSum = batch.stream().reduce(Network.zero(), (gradientSumNetwork1, entry) -> {
+                    var gradientSum = batch.stream().reduce(network1.zero(), (gradientSumNetwork1, entry) -> {
                         var input = normalize(data, entry);
                         var inputVector = Vector.from(input);
 

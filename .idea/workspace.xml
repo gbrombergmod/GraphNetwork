@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Fix bug in next forward process" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Extract packaging" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,9 +52,16 @@
       <recent name="com.meti" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.meti.Network" />
       <recent name="com.meti.Main.Network" />
       <recent name="com.meti.Main.Node" />
       <recent name="com.meti.Node" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.meti" />
+    </key>
+    <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="com.meti" />
     </key>
   </component>
   <component name="RunManager">
@@ -83,7 +90,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="1089000" />
+      <workItem from="1683563431983" duration="1458000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -239,7 +246,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683564274987</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Extract packaging">
+      <created>1683564755416</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1683564755416</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -265,6 +279,7 @@
     <MESSAGE value="Add another output node" />
     <MESSAGE value="Add calculations for the hidden node" />
     <MESSAGE value="Fix bug in next forward process" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix bug in next forward process" />
+    <MESSAGE value="Extract packaging" />
+    <option name="LAST_COMMIT_MESSAGE" value="Extract packaging" />
   </component>
 </project>
