@@ -51,18 +51,12 @@ public class Main {
 
                         var evenActivated = sigmoidDerivative(results.apply(EVEN_ID));
                         var evenBase = costDerivative * evenActivated;
-                        var evenInputVector = new Vector(network1.listConnections(EVEN_ID)
-                                .stream()
-                                .map(results::apply)
-                                .collect(Collectors.toList()));
+                        var evenInputVector = results.locate(network1.listConnections(EVEN_ID));
                         var evenGradient = new Node(evenInputVector, 1d).multiply(evenBase);
 
                         var oddActivated = sigmoidDerivative(results.apply(ODD_ID));
                         var oddBase = costDerivative * oddActivated;
-                        var oddInputVector = new Vector(network1.listConnections(ODD_ID)
-                                .stream()
-                                .map(results::apply)
-                                .collect(Collectors.toList()));
+                        var oddInputVector = results.locate(network1.listConnections(ODD_ID));
                         var oddGradient = new Node(oddInputVector, 1d).multiply(oddBase);
 
                         var hiddenActivated = sigmoidDerivative(results.apply(HIDDEN_ID));
