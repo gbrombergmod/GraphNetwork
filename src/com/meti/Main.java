@@ -56,35 +56,35 @@ public class Main {
 
                         var evenInputVector = results.locate(network1.listConnections(EVEN_ID));
                         var evenGradient = new Node(evenInputVector, 1d).multiply(bases.locate(EVEN_ID));
+                        var nodes = new Nodes()
+                                .addToNode(EVEN_ID, evenGradient);
 
                         var oddActivated = sigmoidDerivative(results.locate(ODD_ID));
                         bases = bases.insert(ODD_ID, costDerivative * oddActivated);
 
                         var oddInputVector = results.locate(network1.listConnections(ODD_ID));
                         var oddGradient = new Node(oddInputVector, 1d).multiply(bases.locate(ODD_ID));
+                        var nodes1 = nodes.addToNode(ODD_ID, oddGradient);
 
                         var hiddenActivated = sigmoidDerivative(results.locate(HIDDEN_ID));
                         var hiddenBase = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(0) +
                                           bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(0)) * hiddenActivated;
+                        var hiddenGradient = new Node(inputVector, 1d).multiply(hiddenBase);
+                        var nodes2 = nodes1.addToNode(HIDDEN_ID, hiddenGradient);
 
                         var hiddenActivated1 = sigmoidDerivative(results.locate(HIDDEN1_ID));
                         var hiddenBase1 = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(1) +
                                            bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(1)) * hiddenActivated1;
+                        var hiddenGradient1 = new Node(inputVector, 1d).multiply(hiddenBase1);
+                        var nodes3 = nodes2.addToNode(HIDDEN1_ID, hiddenGradient1);
 
                         var hiddenActivated2 = sigmoidDerivative(results.locate(HIDDEN2_ID));
                         var hiddenBase2 = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(2) +
                                            bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(2)) * hiddenActivated2;
-
-                        var hiddenGradient = new Node(inputVector, 1d).multiply(hiddenBase);
-                        var hiddenGradient1 = new Node(inputVector, 1d).multiply(hiddenBase1);
                         var hiddenGradient2 = new Node(inputVector, 1d).multiply(hiddenBase2);
+                        var other = nodes3.addToNode(HIDDEN2_ID, hiddenGradient2);
 
-                        return network1.add(new Nodes()
-                                .addToNode(EVEN_ID, evenGradient)
-                                .addToNode(ODD_ID, oddGradient)
-                                .addToNode(HIDDEN_ID, hiddenGradient)
-                                .addToNode(HIDDEN1_ID, hiddenGradient1)
-                                .addToNode(HIDDEN2_ID, hiddenGradient2));
+                        return network1.add(other);
                     }, Main::selectRight);
 
                     var gradient = gradientSum.divide(data.size());
