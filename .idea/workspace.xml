@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Add calculations for the hidden node">
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Fix bug in next forward process" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +83,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="741000" />
+      <workItem from="1683563431983" duration="1089000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -234,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683563842345</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Fix bug in next forward process">
+      <created>1683564274987</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1683564274987</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -259,6 +264,7 @@
     <MESSAGE value="Fix typo" />
     <MESSAGE value="Add another output node" />
     <MESSAGE value="Add calculations for the hidden node" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add calculations for the hidden node" />
+    <MESSAGE value="Fix bug in next forward process" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bug in next forward process" />
   </component>
 </project>

@@ -1,0 +1,38 @@
+package com.meti;
+
+public record Node(Vector weight, double bias) {
+    public static Node zero(int size) {
+        return new Node(Vector.zero(size), 0);
+    }
+
+    public static Node random(int size) {
+        return new Node(Vector.random(size), Math.random());
+    }
+
+    public double forward(Vector input) {
+        if (weight.size() != input.size()) {
+            var format = "Weight size '%d' did not match input vector size '%d'.";
+            var message = format.formatted(weight.size(), input.size());
+            throw new IllegalArgumentException(message);
+        }
+
+        var evaluated = weight.multiply(input).sum() + bias;
+        return 1d / (1d + Math.pow(Math.E, -evaluated));
+    }
+
+    public Node multiply(double scalar) {
+        return new Node(weight.multiply(scalar), bias * scalar);
+    }
+
+    public Node add(Node other) {
+        return new Node(weight.add(other.weight), bias + other.bias);
+    }
+
+    public Node divide(double scalar) {
+        return multiply(1d / scalar);
+    }
+
+    public Node subtract(Node other) {
+        return new Node(weight.add(other.weight.negate()), bias - other.bias);
+    }
+}
