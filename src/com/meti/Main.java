@@ -27,13 +27,13 @@ public class Main {
                         var input = normalize(data, entry);
                         var inputVector = Vector.from(input);
 
-                        var hiddenValue = network1.getHidden().forward(inputVector);
-                        var hiddenValue1 = network1.getHidden1().forward(inputVector);
-                        var hiddenValue2 = network1.getHidden1().forward(inputVector);
+                        var hiddenValue = network1.apply(GraphNetwork.HIDDEN_ID).forward(inputVector);
+                        var hiddenValue1 = network1.apply(GraphNetwork.HIDDEN1_ID).forward(inputVector);
+                        var hiddenValue2 = network1.apply(GraphNetwork.HIDDEN2_ID).forward(inputVector);
                         var hiddenVector = Vector.from(hiddenValue, hiddenValue1, hiddenValue2);
 
-                        var evenValue = network1.getEven().forward(hiddenVector);
-                        var oddValue = network1.getOdd().forward(hiddenVector);
+                        var evenValue = network1.apply(GraphNetwork.EVEN_ID).forward(hiddenVector);
+                        var oddValue = network1.apply(GraphNetwork.ODD_ID).forward(hiddenVector);
 
                         var isEven = entry.getValue();
                         var expectedEven = isEven ? 1d : 0d;
@@ -50,27 +50,26 @@ public class Main {
                         var oddGradient = new Node(hiddenVector, 1d).multiply(oddBase);
 
                         var hiddenActivated = sigmoidDerivative(hiddenValue);
-                        var hiddenBase = (evenBase * network.getEven().weight().apply(0) +
-                                          oddBase * network.getOdd().weight().apply(0)) * hiddenActivated;
+                        var hiddenBase = (evenBase * network.apply(GraphNetwork.EVEN_ID).weight().apply(0) +
+                                          oddBase * network.apply(GraphNetwork.ODD_ID).weight().apply(0)) * hiddenActivated;
 
                         var hiddenActivated1 = sigmoidDerivative(hiddenValue);
-                        var hiddenBase1 = (evenBase * network.getEven().weight().apply(1) +
-                                           oddBase * network.getOdd().weight().apply(1)) * hiddenActivated1;
+                        var hiddenBase1 = (evenBase * network.apply(GraphNetwork.EVEN_ID).weight().apply(1) +
+                                           oddBase * network.apply(GraphNetwork.ODD_ID).weight().apply(1)) * hiddenActivated1;
 
                         var hiddenActivated2 = sigmoidDerivative(hiddenValue);
-                        var hiddenBase2 = (evenBase * network.getEven().weight().apply(2) +
-                                           oddBase * network.getOdd().weight().apply(2)) * hiddenActivated2;
+                        var hiddenBase2 = (evenBase * network.apply(GraphNetwork.EVEN_ID).weight().apply(2) +
+                                           oddBase * network.apply(GraphNetwork.ODD_ID).weight().apply(2)) * hiddenActivated2;
 
                         var hiddenGradient = new Node(inputVector, 1d).multiply(hiddenBase);
                         var hiddenGradient1 = new Node(inputVector, 1d).multiply(hiddenBase1);
                         var hiddenGradient2 = new Node(inputVector, 1d).multiply(hiddenBase2);
 
-                        return gradientSumNetwork1
-                                .addEven(evenGradient)
-                                .addOdd(oddGradient)
-                                .addHidden(hiddenGradient)
-                                .addHidden1(hiddenGradient1)
-                                .addHidden2(hiddenGradient2);
+                        var network3 = gradientSumNetwork1.addToNode(evenGradient, GraphNetwork.EVEN_ID);
+                        var network2 = network3.addToNode(oddGradient, GraphNetwork.ODD_ID);
+                        var network4 = network2.addToNode(hiddenGradient, GraphNetwork.HIDDEN_ID);
+                        var network5 = network4.addToNode(hiddenGradient1, GraphNetwork.HIDDEN1_ID);
+                        return network5.addToNode(hiddenGradient2, GraphNetwork.HIDDEN2_ID);
                     }, Main::selectRight);
 
                     var gradient = gradientSum.divide(data.size());
@@ -83,13 +82,13 @@ public class Main {
             var input = normalize(data, entry);
             var inputVector = Vector.from(input);
 
-            var hiddenValue = trained.getHidden().forward(inputVector);
-            var hiddenValue1 = trained.getHidden1().forward(inputVector);
-            var hiddenValue2 = trained.getHidden1().forward(inputVector);
+            var hiddenValue = trained.apply(GraphNetwork.HIDDEN_ID).forward(inputVector);
+            var hiddenValue1 = trained.apply(GraphNetwork.HIDDEN1_ID).forward(inputVector);
+            var hiddenValue2 = trained.apply(GraphNetwork.HIDDEN2_ID).forward(inputVector);
             var hiddenVector = Vector.from(hiddenValue, hiddenValue1, hiddenValue2);
 
-            var evenValue = trained.getEven().forward(hiddenVector);
-            var oddValue = trained.getOdd().forward(hiddenVector);
+            var evenValue = trained.apply(GraphNetwork.EVEN_ID).forward(hiddenVector);
+            var oddValue = trained.apply(GraphNetwork.ODD_ID).forward(hiddenVector);
 
             var isEven = entry.getValue();
             if (isEven && evenValue > oddValue) {
