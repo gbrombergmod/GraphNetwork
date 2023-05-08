@@ -13,14 +13,16 @@ public class GraphNetwork implements Network {
         this.topology = topology;
     }
 
-    @Override
-    public Network zero() {
-        return computeIfPresent(entry -> entry.getValue().zero());
+    public static Gradients backwardsOutput(Calculations results, int id, Gradients gradientSum, Vector inputs, double costDerivative) {
+        var activated = NetMath.sigmoidDerivative(results.locate(id));
+        var base = costDerivative * activated;
+        var gradient = new Node(inputs, 1d).multiply(base);
+        return gradientSum.add(id, costDerivative * activated, gradient);
     }
 
     @Override
-    public Network addToNode(int id, Node gradient) {
-        return new GraphNetwork(nodes.addToNode(id, gradient), topology);
+    public Network zero() {
+        return computeIfPresent(entry -> entry.getValue().zero());
     }
 
     @Override
@@ -115,5 +117,104 @@ public class GraphNetwork implements Network {
         }
 
         return copy;
+    }
+
+    @Override
+    public Network trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch) {
+        var gradient = batch.stream()
+                .reduce(zero(), (gradientSum, entry) -> train(trainingData, entry.getKey(), entry.getValue()), StreamUtils::selectRight)
+                .divide(batch.size())
+                .multiply(Main.LEARNING_RATE);
+
+        var newNode = subtract(gradient);
+        System.out.println(newNode);
+        return newNode;
+    }
+
+    @Override
+    public Network train(Data data, int key, boolean value) {
+        var topology = computeByDepthsForward()
+                .stream()
+                .flatMap(Collection::stream)
+                .toList();
+
+        var input = data.normalize(key);
+        var inputVector = Vector.from(input);
+        var results = forward(inputVector, topology);
+
+        var expectedEven = value ? 1d : 0d;
+        var expectedOdd = value ? 0d : 1d;
+        var actual = results.locate(List.of(Main.EVEN_ID, Main.ODD_ID));
+        var expected = Vector.from(expectedEven, expectedOdd);
+        var costDerivative = 2 * (expected.subtract(actual).sum());
+
+        var gradients = backward(inputVector, topology, results, costDerivative);
+        return add(gradients.toNodes());
+    }
+
+    @Override
+    public Gradients backward(Vector inputVector, List<Integer> topology, Calculations results, double costDerivative) {
+        var copy = new ArrayList<>(topology);
+        Collections.reverse(copy);
+        return copy.stream()
+                .reduce(MapGradients.empty(),
+                        (gradients, integer) -> backwards(gradients, integer, inputVector, results, costDerivative),
+                        (previous, next) -> next);
+    }
+
+    @Override
+    public Gradients backwards(Gradients gradients, int id, Vector inputVector, Calculations results, double costDerivative) {
+        if (isRoot(id)) {
+            return backwardsHidden(results, id, gradients, inputVector);
+        } else {
+            var ids = listConnections(id);
+            var previousInputs = results.locate(ids);
+            return backwardsOutput(results, id, gradients, previousInputs, costDerivative);
+        }
+    }
+
+    @Override
+    public Gradients backwardsHidden(Calculations results, int source, Gradients gradientSum, Vector inputs) {
+        var previousDerivative = listConnections(source)
+                .stream()
+                .mapToDouble(destination -> gradientSum.locateBase(destination) * findWeight(source, destination))
+                .sum();
+
+        return backwardsOutput(results, source, gradientSum, inputs, previousDerivative);
+    }
+
+    @Override
+    public Calculations forward(Vector inputVector, List<Integer> topology) {
+        return topology.stream().reduce(MapCalculations.empty(),
+                (calculations1, id) -> forward(inputVector, calculations1, id),
+                (previous, next) -> next);
+    }
+
+    @Override
+    public Calculations forward(Vector inputVector, Calculations calculations1, Integer id) {
+        Vector layer;
+        if (isRoot(id)) {
+            layer = inputVector;
+        } else {
+            var collect = listConnections(id);
+            layer = calculations1.locate(collect);
+        }
+
+        var forward = apply(id).forward(layer);
+        return calculations1.insert(id, forward);
+    }
+
+    @Override
+    public double findWeight(int source, int destination) {
+        var integers = listConnections(source);
+        var index = integers.indexOf(destination);
+        return apply(destination).weight().apply(index);
+    }
+
+    @Override
+    public boolean isRoot(Integer id) {
+        return listConnections(id)
+                .stream()
+                .toList().isEmpty();
     }
 }

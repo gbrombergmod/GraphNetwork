@@ -1,25 +1,31 @@
 package com.meti;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Network {
-    default double findWeight(int source, int destination) {
-        var integers = listConnections(source);
-        var index = integers.indexOf(destination);
-        return apply(destination).weight().apply(index);
-    }
 
-    default boolean isRoot(Integer id) {
-        return listConnections(id)
-                .stream()
-                .toList().isEmpty();
-    }
+    Network trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch);
+
+    Network train(Data data, int key, boolean value);
+
+    Gradients backward(Vector inputVector, List<Integer> topology, Calculations results, double costDerivative);
+
+    Gradients backwards(Gradients gradients, int id, Vector inputVector, Calculations results, double costDerivative);
+
+    Gradients backwardsHidden(Calculations results, int source, Gradients gradientSum, Vector inputs);
+
+    Calculations forward(Vector inputVector, List<Integer> topology);
+
+    Calculations forward(Vector inputVector, Calculations calculations1, Integer id);
+
+    double findWeight(int source, int destination);
+
+    boolean isRoot(Integer id);
 
     List<Integer> listConnections(int id);
 
     Network zero();
-
-    Network addToNode(int id, Node gradient);
 
     default Network divide(double scalar) {
         return multiply(1d / scalar);

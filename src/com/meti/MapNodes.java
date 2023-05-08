@@ -5,8 +5,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
-    public MapNodes() {
+    private MapNodes() {
         this(new HashMap<>());
+    }
+
+    public static Nodes empty() {
+        return new MapNodes();
     }
 
     @Override
@@ -18,7 +22,7 @@ public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
     }
 
     @Override
-    public MapNodes addToNode(int id, Node other) {
+    public Nodes addToNode(int id, Node other) {
         var copy = new HashMap<>(nodes());
         if(copy.containsKey(id)) {
             copy.computeIfPresent(id, (integer, node) -> node.add(other));
