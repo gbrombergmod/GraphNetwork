@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Fix topology description">
-      <change afterPath="$PROJECT_DIR$/data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Prepare for mean squared error">
+      <change afterPath="$PROJECT_DIR$/src/com/meti/NetworkState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/MapNodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapNodes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Vector.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +20,8 @@
       <list>
         <option value="Record" />
         <option value="JUnit5 Test Class" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -166,7 +162,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="12856000" />
+      <workItem from="1683563431983" duration="13292000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -476,14 +472,20 @@
       <option name="project" value="LOCAL" />
       <updated>1683575057086</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Prepare for mean squared error">
+      <created>1683576554104</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1683576554104</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add calculations for the hidden node" />
     <MESSAGE value="Fix bug in next forward process" />
     <MESSAGE value="Extract packaging" />
     <MESSAGE value="Extract Network" />
@@ -508,7 +510,8 @@
     <MESSAGE value="Add Gradients" />
     <MESSAGE value="Add bounds check" />
     <MESSAGE value="Fix topology description" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix topology description" />
+    <MESSAGE value="Prepare for mean squared error" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prepare for mean squared error" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

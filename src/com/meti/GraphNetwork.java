@@ -128,13 +128,18 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public Network trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch) {
-        var gradient = batch.stream()
-                .reduce(zero(), (gradientSum, entry) -> train(trainingData, entry.getKey(), entry.getValue()), StreamUtils::selectRight)
-                .divide(batch.size())
+    public NetworkState trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch) {
+        var state = batch.stream()
+                .reduce(new NetworkState(zero(), 0d), (gradientSum, entry) -> {
+                    return train(trainingData, entry.getKey(), entry.getValue());
+                }, StreamUtils::selectRight);
+
+        var batchSize = batch.size();
+        var gradient = state.network()
+                .divide(batchSize)
                 .multiply(Main.LEARNING_RATE);
 
-        return subtract(gradient);
+        return new NetworkState(subtract(gradient), state.mse() / batchSize);
     }
 
     @Override
@@ -154,7 +159,7 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public Network train(Data data, int key, boolean value) {
+    public NetworkState train(Data data, int key, boolean value) {
         var topology = computeByDepthsForward()
                 .stream()
                 .flatMap(Collection::stream)
@@ -168,10 +173,13 @@ public class GraphNetwork implements Network {
         var expectedOdd = value ? 0d : 1d;
         var actual = results.locate(List.of(Main.EVEN_ID, Main.ODD_ID));
         var expected = Vector.from(expectedEven, expectedOdd);
-        var costDerivative = 2 * (expected.subtract(actual).sum());
+        var error = actual.subtract(expected).sum();
+        var mse = Math.pow(error, 2d);
+
+        var costDerivative = 2 * error;
 
         var gradients = backward(inputVector, topology, results, costDerivative);
-        return add(gradients.toNodes());
+        return new NetworkState(add(gradients.toNodes()), mse);
     }
 
     @Override

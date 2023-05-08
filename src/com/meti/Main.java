@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    public static final double LEARNING_RATE = 0.001d;
+    public static final double LEARNING_RATE = 1d;
     public static final int BATCH_COUNT = 10;
     public static final int EVEN_ID = 3;
     public static final int HIDDEN_ID = 0;
@@ -25,9 +25,17 @@ public class Main {
 
         var trained = IntStream.range(0, EPOCH_COUNT)
                 .boxed()
-                .reduce(random(), (network1, integer) -> trainingData.streamBatches(BATCH_COUNT).reduce(network1,
-                        (network2, batch) -> network2.trainBatch(trainingData, batch),
-                        StreamUtils::selectRight), StreamUtils::selectRight);
+                .reduce(random(), (network1, integer) -> {
+                    var state = trainingData.streamBatches(BATCH_COUNT).reduce(new NetworkState(network1, 0),
+                            (network2, batch) -> {
+                                var result = network2.network().trainBatch(trainingData, batch);
+                                return new NetworkState(result.network(), network2.mse() + result.mse());
+                            },
+                            StreamUtils::selectRight);
+
+                    System.out.println(integer + "," + (state.mse() / BATCH_COUNT));
+                    return state.network();
+                }, StreamUtils::selectRight);
 
         var totalCorrect = trainingData.stream().mapToInt(entry -> {
             var outputVector = trained.forward(trainingData, entry.getKey());

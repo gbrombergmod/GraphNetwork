@@ -5,11 +5,11 @@ import java.util.Map;
 
 public interface Network {
 
-    Network trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch);
+    NetworkState trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch);
 
     Vector forward(Data data, int rawInput);
 
-    Network train(Data data, int key, boolean value);
+    NetworkState train(Data data, int key, boolean value);
 
     Gradients backward(Vector inputVector, List<Integer> topology, Calculations results, double costDerivative);
 
