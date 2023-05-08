@@ -1,6 +1,10 @@
 package com.meti;
 
+import java.util.stream.Stream;
+
 public interface Network {
+    Stream<Integer> streamConnections(int id);
+
     Network zero();
 
     GraphNetwork addToNode(Node gradient, int id);
