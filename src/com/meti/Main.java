@@ -91,10 +91,13 @@ public class Main {
         System.out.println((percentage * 100) + "%");
     }
 
-    private static Gradients backwardsHidden(Calculations results, int id, Gradients gradientSum, Network network, Vector inputs) {
-        var previousDerivative = gradientSum.baseGradients().locate(EVEN_ID) * network.findWeight(id, EVEN_ID) +
-                                 gradientSum.baseGradients().locate(ODD_ID) * network.findWeight(id, ODD_ID);
-        return backwardsOutput(results, previousDerivative, gradientSum, id, inputs);
+    private static Gradients backwardsHidden(Calculations results, int source, Gradients gradientSum, Network network, Vector inputs) {
+        var previousDerivative = network.listConnections(source)
+                .stream()
+                .mapToDouble(destination -> gradientSum.baseGradients().locate(destination) * network.findWeight(source, destination))
+                .sum();
+
+        return backwardsOutput(results, previousDerivative, gradientSum, source, inputs);
     }
 
     private static Gradients backwardsOutput(Calculations results, double costDerivative, Gradients gradientSum, int id, Vector inputs) {
