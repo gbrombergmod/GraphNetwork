@@ -1,12 +1,18 @@
 package com.meti;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
-record Vector(List<Double> values) {
+final class Vector {
+    private final List<Double> values;
+
+    Vector(List<Double> values) {
+        this.values = values;
+    }
 
     public static Vector zero(int size) {
         return supply(size, index -> 0d);
@@ -27,6 +33,12 @@ record Vector(List<Double> values) {
     }
 
     public double apply(int index) {
+        if (index < 0 || index >= values.size()) {
+            var format = "Index '%d' is out of bounds for size '%d'.";
+            var message = format.formatted(index, values.size());
+            throw new IndexOutOfBoundsException(message);
+        }
+
         return values.get(index);
     }
 
@@ -67,4 +79,28 @@ record Vector(List<Double> values) {
     public Vector subtract(Vector other) {
         return add(other.negate());
     }
+
+    public List<Double> values() {
+        return values;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (Vector) obj;
+        return Objects.equals(this.values, that.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(values);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector[" +
+               "values=" + values + ']';
+    }
+
 }

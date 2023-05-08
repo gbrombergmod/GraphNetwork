@@ -87,7 +87,7 @@
       <recent name="com.meti" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GraphNetworkTest.testSortByDepthForwards_singleRoot">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.meti.Main" />
       <module name="GraphNetwork" />
@@ -144,10 +144,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_singleRoot" />
         <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_multipleRoots" />
         <item itemvalue="JUnit.GraphNetworkTest" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
