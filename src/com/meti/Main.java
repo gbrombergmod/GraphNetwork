@@ -1,9 +1,6 @@
 package com.meti;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,12 +31,14 @@ public class Main {
                         var input = normalize(data, entry);
                         var inputVector = Vector.from(input);
 
-                        var results = network1.computeByDepthsForward()
+                        var collect = network1.computeByDepthsForward()
                                 .stream()
                                 .flatMap(Collection::stream)
-                                .reduce(MapCalculations.empty(),
-                                        (calculations1, id) -> forward(network1, inputVector, calculations1, id),
-                                        (previous, next) -> next);
+                                .toList();
+
+                        var results = collect.stream().reduce(MapCalculations.empty(),
+                                (calculations1, id) -> forward(network1, inputVector, calculations1, id),
+                                (previous, next) -> next);
 
                         var isEven = entry.getValue();
                         var expectedEven = isEven ? 1d : 0d;
@@ -49,12 +48,13 @@ public class Main {
                         var expected = Vector.from(expectedEven, expectedOdd);
                         var costDerivative = 2 * (expected.subtract(actual).sum());
 
-                        var gradientSum1 = new Gradients();
-                        gradientSum1 = backwardsOutput(results, costDerivative, gradientSum1, EVEN_ID, results.locate(network1.listConnections(EVEN_ID)));
-                        gradientSum1 = backwardsOutput(results, costDerivative, gradientSum1, ODD_ID, results.locate(network1.listConnections(ODD_ID)));
-                        gradientSum1 = backwardsHidden(results, HIDDEN_ID, gradientSum1, network, inputVector);
-                        gradientSum1 = backwardsHidden(results, HIDDEN1_ID, gradientSum1, network, inputVector);
-                        gradientSum1 = backwardsHidden(results, HIDDEN2_ID, gradientSum1, network, inputVector);
+                        var copy = new ArrayList<>(collect);
+                        Collections.reverse(copy);
+
+                        var gradientSum1 = collect.stream()
+                                .reduce(new Gradients(),
+                                        (gradients, integer) -> backwards(gradients, integer, network1, inputVector, results, costDerivative),
+                                        (previous, next) -> next);
 
                         return network1.add(gradientSum1.nodeGradients());
                     }, Main::selectRight);
@@ -91,16 +91,26 @@ public class Main {
         System.out.println((percentage * 100) + "%");
     }
 
-    private static Gradients backwardsHidden(Calculations results, int source, Gradients gradientSum, Network network, Vector inputs) {
+    private static Gradients backwards(Gradients gradients, int id, Network network, Vector inputVector, Calculations results, double costDerivative) {
+        if (network.isRoot(id)) {
+            return backwardsHidden(results, id, gradients, inputVector, network);
+        } else {
+            var ids = network.listConnections(id);
+            var previousInputs = results.locate(ids);
+            return backwardsOutput(results, id, gradients, previousInputs, costDerivative);
+        }
+    }
+
+    private static Gradients backwardsHidden(Calculations results, int source, Gradients gradientSum, Vector inputs, Network network) {
         var previousDerivative = network.listConnections(source)
                 .stream()
                 .mapToDouble(destination -> gradientSum.baseGradients().locate(destination) * network.findWeight(source, destination))
                 .sum();
 
-        return backwardsOutput(results, previousDerivative, gradientSum, source, inputs);
+        return backwardsOutput(results, source, gradientSum, inputs, previousDerivative);
     }
 
-    private static Gradients backwardsOutput(Calculations results, double costDerivative, Gradients gradientSum, int id, Vector inputs) {
+    private static Gradients backwardsOutput(Calculations results, int id, Gradients gradientSum, Vector inputs, double costDerivative) {
         var activated = sigmoidDerivative(results.locate(id));
         var base = costDerivative * activated;
         var gradient = new Node(inputs, 1d).multiply(base);

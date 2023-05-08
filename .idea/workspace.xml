@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Break down addToNode invocations">
-      <change afterPath="$PROJECT_DIR$/src/com/meti/Gradients.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/meti/MapNodes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Cleanup backwardsHidden">
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Nodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Nodes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +158,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="9039000" />
+      <workItem from="1683563431983" duration="9467000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -419,15 +412,27 @@
       <option name="project" value="LOCAL" />
       <updated>1683571483574</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Extract Gradients">
+      <created>1683572591617</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1683572591617</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Cleanup backwardsHidden">
+      <created>1683572741665</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1683572741665</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add simple node" />
-    <MESSAGE value="Add batches" />
     <MESSAGE value="Fix reduction" />
     <MESSAGE value="Add some meaningful output" />
     <MESSAGE value="Wrap output in network" />
@@ -451,6 +456,8 @@
     <MESSAGE value="Remove duplicate locations" />
     <MESSAGE value="Replace bases with a map" />
     <MESSAGE value="Break down addToNode invocations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Break down addToNode invocations" />
+    <MESSAGE value="Extract Gradients" />
+    <MESSAGE value="Cleanup backwardsHidden" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup backwardsHidden" />
   </component>
 </project>
