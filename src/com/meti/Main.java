@@ -20,26 +20,16 @@ public class Main {
         var data = IntStream.range(0, 1000)
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), key -> key % 2 == 0));
-
         var trainingData = new Data(data);
-        var trained = data.entrySet()
-                .stream()
-                .collect(Collectors.groupingBy(entry -> entry.getKey() % BATCH_COUNT))
-                .values()
-                .stream()
-                .reduce(random(), (network, batch) -> network.trainBatch(trainingData, batch), StreamUtils::selectRight);
 
-        var totalCorrect = data.entrySet().stream().mapToInt(entry -> {
-            var input = trainingData.normalize(entry.getKey());
-            var inputVector = Vector.from(input);
+        var trained = trainingData.streamBatches(BATCH_COUNT).reduce(random(),
+                (network, batch) -> network.trainBatch(trainingData, batch),
+                StreamUtils::selectRight);
 
-            var hiddenValue = trained.apply(HIDDEN_ID).forward(inputVector);
-            var hiddenValue1 = trained.apply(HIDDEN1_ID).forward(inputVector);
-            var hiddenValue2 = trained.apply(HIDDEN2_ID).forward(inputVector);
-            var hiddenVector = Vector.from(hiddenValue, hiddenValue1, hiddenValue2);
-
-            var evenValue = trained.apply(EVEN_ID).forward(hiddenVector);
-            var oddValue = trained.apply(ODD_ID).forward(hiddenVector);
+        var totalCorrect = trainingData.stream().mapToInt(entry -> {
+            var outputVector = trained.forward(trainingData, entry.getKey());
+            var evenValue = outputVector.apply(0);
+            var oddValue = outputVector.apply(1);
 
             var isEven = entry.getValue();
             if (isEven && evenValue > oddValue) {
@@ -51,7 +41,7 @@ public class Main {
             }
         }).sum();
 
-        var percentage = (double) totalCorrect / (double) data.size();
+        var percentage = (double) totalCorrect / trainingData.size();
         System.out.println((percentage * 100) + "%");
     }
 

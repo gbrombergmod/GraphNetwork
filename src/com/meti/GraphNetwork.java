@@ -132,6 +132,22 @@ public class GraphNetwork implements Network {
     }
 
     @Override
+    public Vector forward(Data data, int rawInput){
+        var layers = computeByDepthsForward()
+                .stream()
+                .toList();
+
+        var topology = layers
+                .stream()
+                .flatMap(Collection::stream)
+                .toList();
+
+        var input = data.normalize(rawInput);
+        var inputVector = Vector.from(input);
+        return forward(inputVector, topology).locate(layers.get(layers.size() - 1));
+    }
+
+    @Override
     public Network train(Data data, int key, boolean value) {
         var topology = computeByDepthsForward()
                 .stream()
