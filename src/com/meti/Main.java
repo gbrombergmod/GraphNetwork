@@ -1,5 +1,6 @@
 package com.meti;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,54 +34,44 @@ public class Main {
                         var input = normalize(data, entry);
                         var inputVector = Vector.from(input);
 
-                        var results = network1.computeByDepthsForward().stream().reduce(new HashMap<Integer, Double>(), (cache, nodes) -> {
-                            nodes.forEach(id -> {
-                                Vector layer;
-                                var collect = network1.streamConnections(id).toList();
-                                if (collect.isEmpty()) {
-                                    layer = inputVector;
-                                } else {
-                                    layer = new Vector(collect
-                                            .stream()
-                                            .map(cache::get)
-                                            .collect(Collectors.toList()));
-                                }
-
-                                cache.put(id, network1.apply(id).forward(layer));
-                            });
-                            return cache;
-                        }, (previous, next) -> next);
-
+                        var results = network1.computeByDepthsForward()
+                                .stream()
+                                .flatMap(Collection::stream)
+                                .reduce(new Results(),
+                                        (results1, id) -> forward(network1, inputVector, results1, id),
+                                        (previous, next) -> next);
 
                         var isEven = entry.getValue();
                         var expectedEven = isEven ? 1d : 0d;
                         var expectedOdd = isEven ? 0d : 1d;
 
-                        var costDerivative = 2 * (results.get(EVEN_ID) - expectedEven + results.get(ODD_ID) + expectedOdd);
+                        var costDerivative = 2 * (results.apply(EVEN_ID) - expectedEven + results.apply(ODD_ID) + expectedOdd);
 
-                        var evenActivated = sigmoidDerivative(results.get(EVEN_ID));
+                        var evenActivated = sigmoidDerivative(results.apply(EVEN_ID));
                         var evenBase = costDerivative * evenActivated;
-                        var evenInputVector = new Vector(network1.streamConnections(EVEN_ID)
-                                .map(results::get)
+                        var evenInputVector = new Vector(network1.listConnections(EVEN_ID)
+                                .stream()
+                                .map(results::apply)
                                 .collect(Collectors.toList()));
                         var evenGradient = new Node(evenInputVector, 1d).multiply(evenBase);
 
-                        var oddActivated = sigmoidDerivative(results.get(ODD_ID));
+                        var oddActivated = sigmoidDerivative(results.apply(ODD_ID));
                         var oddBase = costDerivative * oddActivated;
-                        var oddInputVector = new Vector(network1.streamConnections(ODD_ID)
-                                .map(results::get)
+                        var oddInputVector = new Vector(network1.listConnections(ODD_ID)
+                                .stream()
+                                .map(results::apply)
                                 .collect(Collectors.toList()));
                         var oddGradient = new Node(oddInputVector, 1d).multiply(oddBase);
 
-                        var hiddenActivated = sigmoidDerivative(results.get(HIDDEN_ID));
+                        var hiddenActivated = sigmoidDerivative(results.apply(HIDDEN_ID));
                         var hiddenBase = (evenBase * network.apply(EVEN_ID).weight().apply(0) +
                                           oddBase * network.apply(ODD_ID).weight().apply(0)) * hiddenActivated;
 
-                        var hiddenActivated1 = sigmoidDerivative(results.get(HIDDEN1_ID));
+                        var hiddenActivated1 = sigmoidDerivative(results.apply(HIDDEN1_ID));
                         var hiddenBase1 = (evenBase * network.apply(EVEN_ID).weight().apply(1) +
                                            oddBase * network.apply(ODD_ID).weight().apply(1)) * hiddenActivated1;
 
-                        var hiddenActivated2 = sigmoidDerivative(results.get(HIDDEN2_ID));
+                        var hiddenActivated2 = sigmoidDerivative(results.apply(HIDDEN2_ID));
                         var hiddenBase2 = (evenBase * network.apply(EVEN_ID).weight().apply(2) +
                                            oddBase * network.apply(ODD_ID).weight().apply(2)) * hiddenActivated2;
 
@@ -126,6 +117,19 @@ public class Main {
 
         var percentage = (double) totalCorrect / (double) data.size();
         System.out.println((percentage * 100) + "%");
+    }
+
+    private static Results forward(Network network, Vector inputVector, Results results1, Integer id) {
+        Vector layer;
+        if (network.isRoot(id)) {
+            layer = inputVector;
+        } else {
+            var collect = network.listConnections(id);
+            layer = results1.locate(collect);
+        }
+
+        var forward = network.apply(id).forward(layer);
+        return results1.insert(id, forward);
     }
 
     private static double sigmoidDerivative(double hiddenValue) {

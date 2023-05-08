@@ -1,10 +1,15 @@
 package com.meti;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public interface Network {
-    Stream<Integer> streamConnections(int id);
+    default boolean isRoot(Integer id) {
+        return listConnections(id)
+                .stream()
+                .toList().isEmpty();
+    }
+
+    List<Integer> listConnections(int id);
 
     Network zero();
 

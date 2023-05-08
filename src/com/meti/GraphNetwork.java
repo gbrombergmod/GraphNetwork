@@ -3,7 +3,6 @@ package com.meti;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GraphNetwork implements Network {
     private final Map<Integer, List<Integer>> topology;
@@ -51,8 +50,8 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public Stream<Integer> streamConnections(int id) {
-        return topology.get(id).stream();
+    public List<Integer> listConnections(int id) {
+        return topology.get(id);
     }
 
     @Override
