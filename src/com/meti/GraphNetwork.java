@@ -55,14 +55,17 @@ public class GraphNetwork implements Network {
         return topology.get(id).stream();
     }
 
-    public List<List<Node>> sortByDepthForwards() {
+    @Override
+    public List<List<Integer>> computeByDepthsForward() {
         var depthMap = computeDepthMap();
         var list = new ArrayList<>(depthMap.keySet());
         Collections.sort(list);
-        return list.stream().map(depthMap::get).collect(Collectors.toList());
+        return list.stream()
+                .map(depthMap::get)
+                .collect(Collectors.toList());
     }
 
-    private TreeMap<Integer, List<Node>> computeDepthMap() {
+    private Map<Integer, List<Integer>> computeDepthMap() {
         Map<Integer, Integer> depthMap = new HashMap<>();
         Map<Integer, Boolean> visited = new HashMap<>();
         Queue<Integer> queue = new LinkedList<>();
@@ -99,17 +102,19 @@ public class GraphNetwork implements Network {
         }
 
         // Group nodes by depth
-        return depthMap.entrySet().stream()
-                .collect(Collectors.groupingBy(
-                        Map.Entry::getValue,
-                        TreeMap::new,
-                        Collectors.mapping(entry -> nodes.nodes().get(entry.getKey()), Collectors.toList())
-                ));
-    }
+        var copy = new HashMap<Integer, List<Integer>>();
+        for (var entry : depthMap.entrySet()) {
+            var depth = entry.getValue();
+            var nodeID = entry.getKey();
+            if (copy.containsKey(depth)) {
+                copy.get(depth).add(nodeID);
+            } else {
+                var list = new ArrayList<Integer>();
+                list.add(nodeID);
+                copy.put(depth, list);
+            }
+        }
 
-    public List<List<Node>> sortBackwards() {
-        var copy = sortByDepthForwards();
-        Collections.reverse(copy);
         return copy;
     }
 }

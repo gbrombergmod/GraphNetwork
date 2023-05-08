@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Extract Nodes">
-      <change afterPath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Replace forwarding with mapping function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GraphNetwork.iml" beforeDir="false" afterPath="$PROJECT_DIR$/GraphNetwork.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +86,7 @@
       <recent name="com.meti" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GraphNetworkTest.testSortByDepthForwards_multipleRoots">
+  <component name="RunManager" selected="JUnit.GraphNetworkTest.testSortByDepthForwards_singleRoot">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.meti.Main" />
       <module name="GraphNetwork" />
@@ -125,8 +125,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GraphNetworkTest.testSortByDepthForwards_singleRoot" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GraphNetwork" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.meti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.meti" />
+      <option name="MAIN_CLASS_NAME" value="com.meti.GraphNetworkTest" />
+      <option name="METHOD_NAME" value="testSortByDepthForwards_singleRoot" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_singleRoot" />
         <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_multipleRoots" />
         <item itemvalue="JUnit.GraphNetworkTest" />
         <item itemvalue="Application.Main" />
@@ -145,7 +162,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="5057000" />
+      <workItem from="1683563431983" duration="6451000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -350,15 +367,20 @@
       <option name="project" value="LOCAL" />
       <updated>1683567708632</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Add topological sorting">
+      <created>1683568729185</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1683568729185</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Train with basic backprop" />
-    <MESSAGE value="Add simple backprop" />
     <MESSAGE value="Replace with average training" />
     <MESSAGE value="Introduce chunks" />
     <MESSAGE value="Fix vector addition" />
@@ -382,6 +404,8 @@
     <MESSAGE value="Add connection map" />
     <MESSAGE value="Push output into cache" />
     <MESSAGE value="Extract Nodes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Extract Nodes" />
+    <MESSAGE value="Add topological sorting" />
+    <MESSAGE value="Replace forwarding with mapping function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Replace forwarding with mapping function" />
   </component>
 </project>

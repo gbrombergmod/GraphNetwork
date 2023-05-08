@@ -26,13 +26,13 @@ class GraphNetworkTest {
         );
 
         var graphNetwork = new GraphNetwork(nodes, topology);
-        var sortedNodes = graphNetwork.sortByDepthForwards();
+        var sortedNodes = graphNetwork.computeByDepthsForward();
 
         assertEquals(4, sortedNodes.size());
-        assertEquals(List.of(new Node(1)), sortedNodes.get(0));
-        assertEquals(List.of(new Node(2)), sortedNodes.get(1));
-        assertEquals(List.of(new Node(3)), sortedNodes.get(2));
-        assertEquals(List.of(new Node(4)), sortedNodes.get(3));
+        assertEquals(List.of(1), sortedNodes.get(0));
+        assertEquals(List.of(2), sortedNodes.get(1));
+        assertEquals(List.of(3), sortedNodes.get(2));
+        assertEquals(List.of(4), sortedNodes.get(3));
     }
 
     @Test
@@ -54,11 +54,11 @@ class GraphNetworkTest {
         );
 
         var graphNetwork = new GraphNetwork(nodes, topology);
-        var sortedNodes = graphNetwork.sortByDepthForwards();
+        var sortedNodes = graphNetwork.computeByDepthsForward();
 
         assertEquals(3, sortedNodes.size());
-        assertTrue(sortedNodes.get(0).containsAll(List.of(new Node(1), new Node(4))));
-        assertTrue(sortedNodes.get(1).containsAll(List.of(new Node(2), new Node(5))));
-        assertTrue(sortedNodes.get(2).containsAll(List.of(new Node(3), new Node(6))));
+        assertTrue(sortedNodes.get(0).containsAll(List.of(1, 4)));
+        assertTrue(sortedNodes.get(1).containsAll(List.of(2, 5)));
+        assertTrue(sortedNodes.get(2).containsAll(List.of(3, 6)));
     }
 }
