@@ -37,8 +37,8 @@ public class Main {
                         var results = network1.computeByDepthsForward()
                                 .stream()
                                 .flatMap(Collection::stream)
-                                .reduce(new Results(),
-                                        (results1, id) -> forward(network1, inputVector, results1, id),
+                                .reduce(MapCalculations.empty(),
+                                        (calculations1, id) -> forward(network1, inputVector, calculations1, id),
                                         (previous, next) -> next);
 
                         var isEven = entry.getValue();
@@ -49,27 +49,31 @@ public class Main {
                         var expected = Vector.from(expectedEven, expectedOdd);
                         var costDerivative = 2 * (expected.subtract(actual).sum());
 
-                        var evenActivated = sigmoidDerivative(results.apply(EVEN_ID));
-                        var evenBase = costDerivative * evenActivated;
+                        var bases = MapCalculations.empty();
+
+                        var evenActivated = sigmoidDerivative(results.locate(EVEN_ID));
+                        bases = bases.insert(EVEN_ID, costDerivative * evenActivated);
+
                         var evenInputVector = results.locate(network1.listConnections(EVEN_ID));
-                        var evenGradient = new Node(evenInputVector, 1d).multiply(evenBase);
+                        var evenGradient = new Node(evenInputVector, 1d).multiply(bases.locate(EVEN_ID));
 
-                        var oddActivated = sigmoidDerivative(results.apply(ODD_ID));
-                        var oddBase = costDerivative * oddActivated;
+                        var oddActivated = sigmoidDerivative(results.locate(ODD_ID));
+                        bases = bases.insert(ODD_ID, costDerivative * oddActivated);
+
                         var oddInputVector = results.locate(network1.listConnections(ODD_ID));
-                        var oddGradient = new Node(oddInputVector, 1d).multiply(oddBase);
+                        var oddGradient = new Node(oddInputVector, 1d).multiply(bases.locate(ODD_ID));
 
-                        var hiddenActivated = sigmoidDerivative(results.apply(HIDDEN_ID));
-                        var hiddenBase = (evenBase * network.apply(EVEN_ID).weight().apply(0) +
-                                          oddBase * network.apply(ODD_ID).weight().apply(0)) * hiddenActivated;
+                        var hiddenActivated = sigmoidDerivative(results.locate(HIDDEN_ID));
+                        var hiddenBase = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(0) +
+                                          bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(0)) * hiddenActivated;
 
-                        var hiddenActivated1 = sigmoidDerivative(results.apply(HIDDEN1_ID));
-                        var hiddenBase1 = (evenBase * network.apply(EVEN_ID).weight().apply(1) +
-                                           oddBase * network.apply(ODD_ID).weight().apply(1)) * hiddenActivated1;
+                        var hiddenActivated1 = sigmoidDerivative(results.locate(HIDDEN1_ID));
+                        var hiddenBase1 = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(1) +
+                                           bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(1)) * hiddenActivated1;
 
-                        var hiddenActivated2 = sigmoidDerivative(results.apply(HIDDEN2_ID));
-                        var hiddenBase2 = (evenBase * network.apply(EVEN_ID).weight().apply(2) +
-                                           oddBase * network.apply(ODD_ID).weight().apply(2)) * hiddenActivated2;
+                        var hiddenActivated2 = sigmoidDerivative(results.locate(HIDDEN2_ID));
+                        var hiddenBase2 = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(2) +
+                                           bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(2)) * hiddenActivated2;
 
                         var hiddenGradient = new Node(inputVector, 1d).multiply(hiddenBase);
                         var hiddenGradient1 = new Node(inputVector, 1d).multiply(hiddenBase1);
@@ -115,17 +119,17 @@ public class Main {
         System.out.println((percentage * 100) + "%");
     }
 
-    private static Results forward(Network network, Vector inputVector, Results results1, Integer id) {
+    private static Calculations forward(Network network, Vector inputVector, Calculations calculations1, Integer id) {
         Vector layer;
         if (network.isRoot(id)) {
             layer = inputVector;
         } else {
             var collect = network.listConnections(id);
-            layer = results1.locate(collect);
+            layer = calculations1.locate(collect);
         }
 
         var forward = network.apply(id).forward(layer);
-        return results1.insert(id, forward);
+        return calculations1.insert(id, forward);
     }
 
     private static double sigmoidDerivative(double hiddenValue) {

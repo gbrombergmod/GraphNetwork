@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Replace forwarding with stream">
-      <change afterPath="$PROJECT_DIR$/src/com/meti/Results.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Remove duplicate locations">
+      <change afterPath="$PROJECT_DIR$/src/com/meti/MapCalculations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Results.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Calculations.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,9 +19,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
-        <option value="Interface" />
         <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -161,7 +161,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="7135000" />
+      <workItem from="1683563431983" duration="7806000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -380,16 +380,34 @@
       <option name="project" value="LOCAL" />
       <updated>1683570353934</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Extract Results">
+      <created>1683570809143</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1683570809143</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Replace cost function with vector math">
+      <created>1683570878957</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1683570878957</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Remove duplicate locations">
+      <created>1683570951850</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1683570951850</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Introduce chunks" />
-    <MESSAGE value="Fix vector addition" />
-    <MESSAGE value="Add hidden1 node to network" />
     <MESSAGE value="Kaboom" />
     <MESSAGE value="Add Main" />
     <MESSAGE value="Add simple node" />
@@ -412,6 +430,9 @@
     <MESSAGE value="Add topological sorting" />
     <MESSAGE value="Replace forwarding with mapping function" />
     <MESSAGE value="Replace forwarding with stream" />
-    <option name="LAST_COMMIT_MESSAGE" value="Replace forwarding with stream" />
+    <MESSAGE value="Extract Results" />
+    <MESSAGE value="Replace cost function with vector math" />
+    <MESSAGE value="Remove duplicate locations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove duplicate locations" />
   </component>
 </project>
