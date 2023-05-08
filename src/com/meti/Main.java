@@ -42,28 +42,27 @@ public class Main {
                         results.put(HIDDEN1_ID, hiddenValue1);
                         results.put(HIDDEN2_ID, hiddenValue2);
 
-                        var evenInputVector = new Vector(network1.streamConnections(0)
+                        var evenInputVector = new Vector(network1.streamConnections(EVEN_ID)
                                 .map(results::get)
                                 .collect(Collectors.toList()));
-                        var evenValue = network1.apply(EVEN_ID).forward(evenInputVector);
+                        results.put(EVEN_ID, network1.apply(EVEN_ID).forward(evenInputVector));
 
-                        var oddInputVector = new Vector(network1.streamConnections(0)
+                        var oddInputVector = new Vector(network1.streamConnections(ODD_ID)
                                 .map(results::get)
                                 .collect(Collectors.toList()));
-
-                        var oddValue = network1.apply(ODD_ID).forward(oddInputVector);
+                        results.put(ODD_ID, network1.apply(ODD_ID).forward(oddInputVector));
 
                         var isEven = entry.getValue();
                         var expectedEven = isEven ? 1d : 0d;
                         var expectedOdd = isEven ? 0d : 1d;
 
-                        var costDerivative = 2 * (evenValue - expectedEven + oddValue + expectedOdd);
+                        var costDerivative = 2 * (results.get(EVEN_ID) - expectedEven + results.get(ODD_ID) + expectedOdd);
 
-                        var evenActivated = sigmoidDerivative(evenValue);
+                        var evenActivated = sigmoidDerivative(results.get(EVEN_ID));
                         var evenBase = costDerivative * evenActivated;
                         var evenGradient = new Node(evenInputVector, 1d).multiply(evenBase);
 
-                        var oddActivated = sigmoidDerivative(oddValue);
+                        var oddActivated = sigmoidDerivative(results.get(ODD_ID));
                         var oddBase = costDerivative * oddActivated;
                         var oddGradient = new Node(oddInputVector, 1d).multiply(oddBase);
 

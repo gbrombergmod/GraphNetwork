@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Remove application-specific code from Network">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Add connection map">
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,11 +55,11 @@
       <recent name="com.meti" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
-      <recent name="com.meti.Main" />
       <recent name="com.meti.Network" />
+      <recent name="com.meti.GraphNetwork" />
+      <recent name="com.meti.Main" />
       <recent name="com.meti.Main.Network" />
       <recent name="com.meti.Main.Node" />
-      <recent name="com.meti.Node" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.meti" />
@@ -96,7 +94,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="3256000" />
+      <workItem from="1683563431983" duration="3630000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -280,7 +278,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683565741794</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Add connection map">
+      <created>1683566950324</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1683566950324</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -310,6 +315,7 @@
     <MESSAGE value="Extract Network" />
     <MESSAGE value="Replace TempNetwork with GraphNetwork" />
     <MESSAGE value="Remove application-specific code from Network" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove application-specific code from Network" />
+    <MESSAGE value="Add connection map" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add connection map" />
   </component>
 </project>
