@@ -39,7 +39,11 @@ final class Vector {
             throw new IndexOutOfBoundsException(message);
         }
 
-        return values.get(index);
+        var aDouble = values.get(index);
+        if(aDouble == null) {
+            throw new IllegalStateException();
+        }
+        return aDouble;
     }
 
     public Vector multiply(Vector other) {

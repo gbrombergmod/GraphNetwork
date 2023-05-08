@@ -54,8 +54,9 @@ public class Main {
         nodes.put(ODD_ID, Node.random(3));
 
         var topology = new HashMap<Integer, List<Integer>>();
-        topology.put(EVEN_ID, List.of(Main.HIDDEN_ID, Main.HIDDEN1_ID, Main.HIDDEN2_ID));
-        topology.put(ODD_ID, List.of(Main.HIDDEN_ID, Main.HIDDEN1_ID, Main.HIDDEN2_ID));
+        topology.put(HIDDEN_ID, List.of(EVEN_ID, ODD_ID));
+        topology.put(HIDDEN1_ID, List.of(EVEN_ID, ODD_ID));
+        topology.put(HIDDEN2_ID, List.of(EVEN_ID, ODD_ID));
 
         return new GraphNetwork(new MapNodes(nodes), topology);
     }

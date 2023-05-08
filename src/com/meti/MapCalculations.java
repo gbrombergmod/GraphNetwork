@@ -24,12 +24,18 @@ public record MapCalculations(Map<Integer, Double> cache) implements Calculation
     public Vector locate(List<Integer> ids) {
         return new Vector(ids
                 .stream()
-                .map(cache::get)
+                .map(this::locate)
                 .collect(Collectors.toList()));
     }
 
     @Override
     public double locate(int id) {
-        return cache.get(id);
+        if (cache.containsKey(id)) {
+            return cache.get(id);
+        } else {
+            var format = "Calculation cache does not have id '%d'.";
+            var message = format.formatted(id);
+            throw new IllegalArgumentException(message);
+        }
     }
 }

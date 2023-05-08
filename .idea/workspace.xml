@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Extract calculations">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Add bounds check">
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Vector.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,9 +141,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.GraphNetworkTest" />
         <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_singleRoot" />
         <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_multipleRoots" />
-        <item itemvalue="JUnit.GraphNetworkTest" />
       </list>
     </recent_temporary>
   </component>
@@ -163,7 +159,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="10891000" />
+      <workItem from="1683563431983" duration="11209000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -445,16 +441,34 @@
       <option name="project" value="LOCAL" />
       <updated>1683574124909</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Move around details">
+      <created>1683574464963</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1683574464963</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Add Gradients">
+      <created>1683574475711</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1683574475711</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Add bounds check">
+      <created>1683574627237</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1683574627237</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Wrap output in network" />
-    <MESSAGE value="Add hidden node" />
-    <MESSAGE value="Fix typo" />
     <MESSAGE value="Add another output node" />
     <MESSAGE value="Add calculations for the hidden node" />
     <MESSAGE value="Fix bug in next forward process" />
@@ -477,6 +491,20 @@
     <MESSAGE value="Cleanup backwardsHidden" />
     <MESSAGE value="Extract backwards" />
     <MESSAGE value="Extract calculations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Extract calculations" />
+    <MESSAGE value="Move around details" />
+    <MESSAGE value="Add Gradients" />
+    <MESSAGE value="Add bounds check" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add bounds check" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/meti/Vector.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
