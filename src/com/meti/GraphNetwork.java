@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 public class GraphNetwork implements Network {
     private final Map<Integer, List<Integer>> topology;
-    private final Nodes nodes;
+    private final MapNodes nodes;
 
-    public GraphNetwork(Nodes nodes, Map<Integer, List<Integer>> topology) {
+    public GraphNetwork(MapNodes nodes, Map<Integer, List<Integer>> topology) {
         this.nodes = nodes;
         this.topology = topology;
     }
@@ -34,7 +34,7 @@ public class GraphNetwork implements Network {
     }
 
     private GraphNetwork computeIfPresent(Function<Map.Entry<Integer, Node>, Node> mapper) {
-        return new GraphNetwork(new Nodes(nodes.nodes().entrySet()
+        return new GraphNetwork(new MapNodes(nodes.nodes().entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, mapper))), topology);
     }
@@ -74,7 +74,7 @@ public class GraphNetwork implements Network {
             visited.put(key, false);
         }
 
-        // Find all root nodes (nodes without incoming edges)
+        // Find all root nodeGradients (nodeGradients without incoming edges)
         Set<Integer> allNodes = nodes.nodes().keySet();
         Set<Integer> nonRootNodes = topology.values().stream().flatMap(List::stream).collect(Collectors.toSet());
         Set<Integer> rootNodes = new HashSet<>(allNodes);
@@ -100,7 +100,7 @@ public class GraphNetwork implements Network {
             }
         }
 
-        // Group nodes by depth
+        // Group nodeGradients by depth
         var copy = new HashMap<Integer, List<Integer>>();
         for (var entry : depthMap.entrySet()) {
             var depth = entry.getValue();

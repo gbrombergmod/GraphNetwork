@@ -49,42 +49,14 @@ public class Main {
                         var expected = Vector.from(expectedEven, expectedOdd);
                         var costDerivative = 2 * (expected.subtract(actual).sum());
 
-                        var bases = MapCalculations.empty();
+                        var gradientSum1 = new Gradients();
+                        gradientSum1 = backwardsOutput(results, costDerivative, gradientSum1, EVEN_ID, results.locate(network1.listConnections(EVEN_ID)));
+                        gradientSum1 = backwardsOutput(results, costDerivative, gradientSum1, ODD_ID, results.locate(network1.listConnections(ODD_ID)));
+                        gradientSum1 = backwardsHidden(results, HIDDEN_ID, gradientSum1, network, inputVector);
+                        gradientSum1 = backwardsHidden(results, HIDDEN1_ID, gradientSum1, network, inputVector);
+                        gradientSum1 = backwardsHidden(results, HIDDEN2_ID, gradientSum1, network, inputVector);
 
-                        var evenActivated = sigmoidDerivative(results.locate(EVEN_ID));
-                        bases = bases.insert(EVEN_ID, costDerivative * evenActivated);
-
-                        var evenInputVector = results.locate(network1.listConnections(EVEN_ID));
-                        var evenGradient = new Node(evenInputVector, 1d).multiply(bases.locate(EVEN_ID));
-                        var nodes = new Nodes()
-                                .addToNode(EVEN_ID, evenGradient);
-
-                        var oddActivated = sigmoidDerivative(results.locate(ODD_ID));
-                        bases = bases.insert(ODD_ID, costDerivative * oddActivated);
-
-                        var oddInputVector = results.locate(network1.listConnections(ODD_ID));
-                        var oddGradient = new Node(oddInputVector, 1d).multiply(bases.locate(ODD_ID));
-                        var nodes1 = nodes.addToNode(ODD_ID, oddGradient);
-
-                        var hiddenActivated = sigmoidDerivative(results.locate(HIDDEN_ID));
-                        var hiddenBase = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(0) +
-                                          bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(0)) * hiddenActivated;
-                        var hiddenGradient = new Node(inputVector, 1d).multiply(hiddenBase);
-                        var nodes2 = nodes1.addToNode(HIDDEN_ID, hiddenGradient);
-
-                        var hiddenActivated1 = sigmoidDerivative(results.locate(HIDDEN1_ID));
-                        var hiddenBase1 = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(1) +
-                                           bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(1)) * hiddenActivated1;
-                        var hiddenGradient1 = new Node(inputVector, 1d).multiply(hiddenBase1);
-                        var nodes3 = nodes2.addToNode(HIDDEN1_ID, hiddenGradient1);
-
-                        var hiddenActivated2 = sigmoidDerivative(results.locate(HIDDEN2_ID));
-                        var hiddenBase2 = (bases.locate(EVEN_ID) * network.apply(EVEN_ID).weight().apply(2) +
-                                           bases.locate(ODD_ID) * network.apply(ODD_ID).weight().apply(2)) * hiddenActivated2;
-                        var hiddenGradient2 = new Node(inputVector, 1d).multiply(hiddenBase2);
-                        var other = nodes3.addToNode(HIDDEN2_ID, hiddenGradient2);
-
-                        return network1.add(other);
+                        return network1.add(gradientSum1.nodeGradients());
                     }, Main::selectRight);
 
                     var gradient = gradientSum.divide(data.size());
@@ -117,6 +89,19 @@ public class Main {
 
         var percentage = (double) totalCorrect / (double) data.size();
         System.out.println((percentage * 100) + "%");
+    }
+
+    private static Gradients backwardsHidden(Calculations results, int id, Gradients gradientSum, Network network, Vector inputs) {
+        var previousDerivative = gradientSum.baseGradients().locate(EVEN_ID) * network.findWeight(id, EVEN_ID) +
+                                 gradientSum.baseGradients().locate(ODD_ID) * network.findWeight(id, ODD_ID);
+        return backwardsOutput(results, previousDerivative, gradientSum, id, inputs);
+    }
+
+    private static Gradients backwardsOutput(Calculations results, double costDerivative, Gradients gradientSum, int id, Vector inputs) {
+        var activated = sigmoidDerivative(results.locate(id));
+        var base = costDerivative * activated;
+        var gradient = new Node(inputs, 1d).multiply(base);
+        return gradientSum.add(id, costDerivative * activated, gradient);
     }
 
     private static Calculations forward(Network network, Vector inputVector, Calculations calculations1, Integer id) {
@@ -157,6 +142,6 @@ public class Main {
         topology.put(EVEN_ID, List.of(Main.HIDDEN_ID, Main.HIDDEN1_ID, Main.HIDDEN2_ID));
         topology.put(ODD_ID, List.of(Main.HIDDEN_ID, Main.HIDDEN1_ID, Main.HIDDEN2_ID));
 
-        return new GraphNetwork(new Nodes(nodes), topology);
+        return new GraphNetwork(new MapNodes(nodes), topology);
     }
 }

@@ -12,7 +12,7 @@ class GraphNetworkTest {
 
     @Test
     void testSortByDepthForwards_singleRoot() {
-        var nodes = new Nodes(Map.of(
+        var nodes = new MapNodes(Map.of(
                 1, new Node(1),
                 2, new Node(2),
                 3, new Node(3),
@@ -37,7 +37,7 @@ class GraphNetworkTest {
 
     @Test
     void testSortByDepthForwards_multipleRoots() {
-        var nodes = new Nodes(Map.of(
+        var nodes = new MapNodes(Map.of(
                 1, new Node(1),
                 2, new Node(2),
                 3, new Node(3),

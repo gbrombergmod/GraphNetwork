@@ -3,6 +3,12 @@ package com.meti;
 import java.util.List;
 
 public interface Network {
+    default double findWeight(int source, int destination) {
+        var integers = listConnections(source);
+        var index = integers.indexOf(destination);
+        return apply(destination).weight().apply(index);
+    }
+
     default boolean isRoot(Integer id) {
         return listConnections(id)
                 .stream()
