@@ -7,11 +7,13 @@ public interface Network {
 
     Network zero();
 
-    GraphNetwork addToNode(Node gradient, int id);
+    Network addToNode(int id, Node gradient);
 
     default Network divide(double scalar) {
         return multiply(1d / scalar);
     }
+
+    Network add(Nodes other);
 
     Network multiply(double scalar);
 

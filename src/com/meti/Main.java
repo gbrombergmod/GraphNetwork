@@ -82,11 +82,12 @@ public class Main {
                         var hiddenGradient1 = new Node(inputVector, 1d).multiply(hiddenBase1);
                         var hiddenGradient2 = new Node(inputVector, 1d).multiply(hiddenBase2);
 
-                        var network3 = gradientSumNetwork1.addToNode(evenGradient, EVEN_ID);
-                        var network2 = network3.addToNode(oddGradient, ODD_ID);
-                        var network4 = network2.addToNode(hiddenGradient, HIDDEN_ID);
-                        var network5 = network4.addToNode(hiddenGradient1, HIDDEN1_ID);
-                        return network5.addToNode(hiddenGradient2, HIDDEN2_ID);
+                        return network1.add(new Nodes()
+                                .addToNode(EVEN_ID, evenGradient)
+                                .addToNode(ODD_ID, oddGradient)
+                                .addToNode(HIDDEN_ID, hiddenGradient)
+                                .addToNode(HIDDEN1_ID, hiddenGradient1)
+                                .addToNode(HIDDEN2_ID, hiddenGradient2));
                     }, Main::selectRight);
 
                     var gradient = gradientSum.divide(data.size());
@@ -146,6 +147,6 @@ public class Main {
         topology.put(EVEN_ID, List.of(Main.HIDDEN_ID, Main.HIDDEN1_ID, Main.HIDDEN2_ID));
         topology.put(ODD_ID, List.of(Main.HIDDEN_ID, Main.HIDDEN1_ID, Main.HIDDEN2_ID));
 
-        return new GraphNetwork(nodes, topology);
+        return new GraphNetwork(new Nodes(nodes), topology);
     }
 }

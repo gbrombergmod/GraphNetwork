@@ -1,6 +1,5 @@
 package com.meti;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -8,10 +7,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GraphNetwork implements Network {
-    private final Map<Integer, Node> nodes;
     private final Map<Integer, List<Integer>> topology;
+    private final Nodes nodes;
 
-    public GraphNetwork(Map<Integer, Node> nodes, Map<Integer, List<Integer>> topology) {
+    public GraphNetwork(Nodes nodes, Map<Integer, List<Integer>> topology) {
         this.nodes = nodes;
         this.topology = topology;
     }
@@ -22,10 +21,13 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public GraphNetwork addToNode(Node gradient, int id) {
-        var copy = new HashMap<>(nodes);
-        copy.computeIfPresent(id, (key, node) -> node.add(gradient));
-        return new GraphNetwork(copy, topology);
+    public Network addToNode(int id, Node gradient) {
+        return new GraphNetwork(nodes.addToNode(id, gradient), topology);
+    }
+
+    @Override
+    public Network add(Nodes other) {
+        return new GraphNetwork(nodes.add(other), topology);
     }
 
     @Override
@@ -34,9 +36,9 @@ public class GraphNetwork implements Network {
     }
 
     private GraphNetwork computeIfPresent(Function<Map.Entry<Integer, Node>, Node> mapper) {
-        return new GraphNetwork(nodes.entrySet()
+        return new GraphNetwork(new Nodes(nodes.nodes().entrySet()
                 .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, mapper)), topology);
+                .collect(Collectors.toMap(Map.Entry::getKey, mapper))), topology);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class GraphNetwork implements Network {
 
     @Override
     public Node apply(int key) {
-        return nodes.get(key);
+        return nodes.nodes().get(key);
     }
 
     @Override
