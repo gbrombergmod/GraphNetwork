@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Push output into cache">
-      <change afterPath="$PROJECT_DIR$/src/com/meti/Nodes.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Extract Nodes">
+      <change afterPath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GraphNetwork.iml" beforeDir="false" afterPath="$PROJECT_DIR$/GraphNetwork.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Node.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +22,7 @@
         <option value="Record" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -38,21 +40,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;introduce.parameter.lambda&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "create.test.in.the.same.root": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "introduce.parameter.lambda": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.meti" />
@@ -64,14 +73,20 @@
       <recent name="com.meti.Main.Network" />
       <recent name="com.meti.Main.Node" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.meti" />
     </key>
     <key name="MoveInnerDialog.RECENTS_KEY">
       <recent name="com.meti" />
     </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.meti" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.GraphNetworkTest.testSortByDepthForwards_multipleRoots">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.meti.Main" />
       <module name="GraphNetwork" />
@@ -79,8 +94,41 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GraphNetworkTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GraphNetwork" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.meti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.meti" />
+      <option name="MAIN_CLASS_NAME" value="com.meti.GraphNetworkTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GraphNetworkTest.testSortByDepthForwards_multipleRoots" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GraphNetwork" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.meti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.meti" />
+      <option name="MAIN_CLASS_NAME" value="com.meti.GraphNetworkTest" />
+      <option name="METHOD_NAME" value="testSortByDepthForwards_multipleRoots" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_multipleRoots" />
+        <item itemvalue="JUnit.GraphNetworkTest" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -97,7 +145,7 @@
       <workItem from="1683324153898" duration="2425000" />
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
-      <workItem from="1683563431983" duration="4055000" />
+      <workItem from="1683563431983" duration="5057000" />
     </task>
     <task id="LOCAL-00001" summary="Add Main">
       <created>1683310253464</created>
@@ -295,14 +343,20 @@
       <option name="project" value="LOCAL" />
       <updated>1683567114042</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Extract Nodes">
+      <created>1683567708632</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1683567708632</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add base code" />
     <MESSAGE value="Train with basic backprop" />
     <MESSAGE value="Add simple backprop" />
     <MESSAGE value="Replace with average training" />
@@ -327,6 +381,7 @@
     <MESSAGE value="Remove application-specific code from Network" />
     <MESSAGE value="Add connection map" />
     <MESSAGE value="Push output into cache" />
-    <option name="LAST_COMMIT_MESSAGE" value="Push output into cache" />
+    <MESSAGE value="Extract Nodes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Extract Nodes" />
   </component>
 </project>

@@ -1,6 +1,10 @@
 package com.meti;
 
 public record Node(Vector weight, double bias) {
+    public Node(double bias) {
+        this(Vector.zero(0), bias);
+    }
+
     public static Node zero(int size) {
         return new Node(Vector.zero(size), 0);
     }
