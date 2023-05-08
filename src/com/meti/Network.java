@@ -25,7 +25,7 @@ public interface Network {
 
     boolean isRoot(Integer id);
 
-    List<Integer> listConnections(int id);
+    List<Integer> listSources(int id);
 
     Network zero();
 

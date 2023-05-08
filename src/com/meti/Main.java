@@ -8,13 +8,14 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    public static final double LEARNING_RATE = 1d;
+    public static final double LEARNING_RATE = 0.001d;
     public static final int BATCH_COUNT = 10;
     public static final int EVEN_ID = 3;
     public static final int HIDDEN_ID = 0;
     public static final int ODD_ID = 4;
     public static final int HIDDEN1_ID = 1;
     public static final int HIDDEN2_ID = 2;
+    public static final int EPOCH_COUNT = 100;
 
     public static void main(String[] args) {
         var data = IntStream.range(0, 1000)
@@ -22,9 +23,11 @@ public class Main {
                 .collect(Collectors.toMap(Function.identity(), key -> key % 2 == 0));
         var trainingData = new Data(data);
 
-        var trained = trainingData.streamBatches(BATCH_COUNT).reduce(random(),
-                (network, batch) -> network.trainBatch(trainingData, batch),
-                StreamUtils::selectRight);
+        var trained = IntStream.range(0, EPOCH_COUNT)
+                .boxed()
+                .reduce(random(), (network1, integer) -> trainingData.streamBatches(BATCH_COUNT).reduce(network1,
+                        (network2, batch) -> network2.trainBatch(trainingData, batch),
+                        StreamUtils::selectRight), StreamUtils::selectRight);
 
         var totalCorrect = trainingData.stream().mapToInt(entry -> {
             var outputVector = trained.forward(trainingData, entry.getKey());

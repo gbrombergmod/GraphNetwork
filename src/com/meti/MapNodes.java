@@ -2,6 +2,7 @@ package com.meti;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
@@ -11,6 +12,14 @@ public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
 
     public static Nodes empty() {
         return new MapNodes();
+    }
+
+    @Override
+    public String toString() {
+        return nodes.values()
+                .stream()
+                .map(Objects::toString)
+                .collect(Collectors.joining(","));
     }
 
     @Override

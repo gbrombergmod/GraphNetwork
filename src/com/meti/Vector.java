@@ -40,7 +40,7 @@ final class Vector {
         }
 
         var aDouble = values.get(index);
-        if(aDouble == null) {
+        if (aDouble == null) {
             throw new IllegalStateException();
         }
         return aDouble;
@@ -103,8 +103,8 @@ final class Vector {
 
     @Override
     public String toString() {
-        return "Vector[" +
-               "values=" + values + ']';
+        return values.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(","));
     }
-
 }

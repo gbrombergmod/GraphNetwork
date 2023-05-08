@@ -5,6 +5,11 @@ public record Node(Vector weight, double bias) {
         this(Vector.zero(0), bias);
     }
 
+    @Override
+    public String toString() {
+        return weight.toString() + "," + bias;
+    }
+
     public static Node zero(int size) {
         return new Node(Vector.zero(size), 0);
     }
@@ -34,10 +39,6 @@ public record Node(Vector weight, double bias) {
 
     public Node add(Node other) {
         return new Node(weight.add(other.weight), bias + other.bias);
-    }
-
-    public Node divide(double scalar) {
-        return multiply(1d / scalar);
     }
 
     public Node subtract(Node other) {

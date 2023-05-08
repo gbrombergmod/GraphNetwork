@@ -3,6 +3,7 @@ package com.meti;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GraphNetwork implements Network {
     private final Map<Integer, List<Integer>> topology;
@@ -52,8 +53,10 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public List<Integer> listConnections(int id) {
-        return topology.get(id);
+    public List<Integer> listSources(int id) {
+        return topology.entrySet().stream()
+                .flatMap(entry -> entry.getValue().contains(id) ? Stream.of(entry.getKey()) : Stream.empty())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -120,19 +123,22 @@ public class GraphNetwork implements Network {
     }
 
     @Override
+    public String toString() {
+        return nodes.toString();
+    }
+
+    @Override
     public Network trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch) {
         var gradient = batch.stream()
                 .reduce(zero(), (gradientSum, entry) -> train(trainingData, entry.getKey(), entry.getValue()), StreamUtils::selectRight)
                 .divide(batch.size())
                 .multiply(Main.LEARNING_RATE);
 
-        var newNode = subtract(gradient);
-        System.out.println(newNode);
-        return newNode;
+        return subtract(gradient);
     }
 
     @Override
-    public Vector forward(Data data, int rawInput){
+    public Vector forward(Data data, int rawInput) {
         var layers = computeByDepthsForward()
                 .stream()
                 .toList();
@@ -183,7 +189,7 @@ public class GraphNetwork implements Network {
         if (isRoot(id)) {
             return backwardsHidden(results, id, gradients, inputVector);
         } else {
-            var ids = listConnections(id);
+            var ids = listSources(id);
             var previousInputs = results.locate(ids);
             return backwardsOutput(results, id, gradients, previousInputs, costDerivative);
         }
@@ -191,7 +197,7 @@ public class GraphNetwork implements Network {
 
     @Override
     public Gradients backwardsHidden(Calculations results, int source, Gradients gradientSum, Vector inputs) {
-        var previousDerivative = listConnections(source)
+        var previousDerivative = listSources(source)
                 .stream()
                 .mapToDouble(destination -> gradientSum.locateBase(destination) * findWeight(source, destination))
                 .sum();
@@ -212,7 +218,7 @@ public class GraphNetwork implements Network {
         if (isRoot(id)) {
             layer = inputVector;
         } else {
-            var collect = listConnections(id);
+            var collect = listSources(id);
             layer = calculations1.locate(collect);
         }
 
@@ -222,15 +228,16 @@ public class GraphNetwork implements Network {
 
     @Override
     public double findWeight(int source, int destination) {
-        var integers = listConnections(source);
+        var integers = listSources(source);
         var index = integers.indexOf(destination);
         return apply(destination).weight().apply(index);
     }
 
     @Override
     public boolean isRoot(Integer id) {
-        return listConnections(id)
+        return listSources(id)
                 .stream()
-                .toList().isEmpty();
+                .findAny()
+                .isEmpty();
     }
 }
