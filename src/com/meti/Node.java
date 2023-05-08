@@ -15,7 +15,7 @@ public record Node(Vector weight, double bias) {
     }
 
     public static Node random(int size) {
-        return new Node(Vector.random(size), Math.random());
+        return new Node(Vector.random(size), NetMath.randomFloat());
     }
 
     public Node zero() {
@@ -30,7 +30,7 @@ public record Node(Vector weight, double bias) {
         }
 
         var evaluated = weight.multiply(input).sum() + bias;
-        return NetMath.sigmoid(evaluated);
+        return NetMath.relu(evaluated);
     }
 
     public Node multiply(double scalar) {

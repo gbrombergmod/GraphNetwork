@@ -2,20 +2,19 @@ package com.meti;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public interface Network {
 
-    NetworkState trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch);
+    NetworkState trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch, Function<Boolean, Vector> expected);
 
     Vector forward(Data data, int rawInput);
 
-    NetworkState train(Data data, int key, boolean value);
+    NetworkState train(Data data, int key, boolean value, Function<Boolean, Vector> mapper);
 
     Gradients backward(Vector inputVector, List<Integer> topology, Calculations results, double costDerivative);
 
     Gradients backwards(Gradients gradients, int id, Vector inputVector, Calculations results, double costDerivative);
-
-    Gradients backwardsHidden(Calculations results, int source, Gradients gradientSum, Vector inputs);
 
     Calculations forward(Vector inputVector, List<Integer> topology);
 

@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Prepare for mean squared error">
-      <change afterPath="$PROJECT_DIR$/src/com/meti/NetworkState.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Confirm decrease of MSE">
+      <change afterPath="$PROJECT_DIR$/src/com/meti/GraphNetworkBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Data.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/NetMath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/NetMath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Vector.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +58,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "create.test.in.the.same.root": "true",
     "dart.analysis.tool.window.visible": "false",
+    "extract.method.default.visibility": "public",
     "introduce.parameter.lambda": "true",
     "last_directory_selection": "C:/Users/mathm/IdeaProjects/GraphNetwork/src/com/meti",
     "node.js.detected.package.eslint": "true",
@@ -67,11 +74,11 @@
       <recent name="com.meti" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.meti.Main" />
+      <recent name="com.meti.NetMath" />
       <recent name="com.meti.StreamUtils" />
       <recent name="com.metiStreamUtils" />
       <recent name="com.meti.Network" />
-      <recent name="com.meti.NetMath" />
-      <recent name="com.meti.GraphNetwork" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />

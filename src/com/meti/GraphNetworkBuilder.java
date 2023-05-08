@@ -1,0 +1,23 @@
+package com.meti;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public record GraphNetworkBuilder(Map<Integer, Node> nodes, Map<Integer, List<Integer>> topology) {
+    int create(int inputSize) {
+        var id = nodes().size();
+        nodes().put(id, Node.random(inputSize));
+        return id;
+    }
+
+    GraphNetwork toNetwork() {
+        return new GraphNetwork(new MapNodes(nodes()), topology());
+    }
+
+    public void connect(List<Integer> source, List<Integer> destination) {
+        for (var integer : source) {
+            topology.put(integer, destination);
+        }
+    }
+}

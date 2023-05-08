@@ -5,15 +5,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public record Data(Map<Integer, Boolean> data) {
-    Stream<List<Map.Entry<Integer, Boolean>>> streamBatches(int batchCount) {
+public record Data<T>(Map<Integer, T> data) {
+    Stream<List<Map.Entry<Integer, T>>> streamBatches(int batchCount) {
+        var itemsPerBatch = data.size() / batchCount;
         return stream()
-                .collect(Collectors.groupingBy(entry -> entry.getKey() % batchCount))
+                .collect(Collectors.groupingBy(entry -> entry.getKey() / itemsPerBatch))
                 .values()
                 .stream();
     }
 
-    Stream<Map.Entry<Integer, Boolean>> stream() {
+    Stream<Map.Entry<Integer, T>> stream() {
         return data().entrySet().stream();
     }
 

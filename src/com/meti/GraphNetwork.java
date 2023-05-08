@@ -15,7 +15,7 @@ public class GraphNetwork implements Network {
     }
 
     public static Gradients backwardsOutput(Calculations results, int id, Gradients gradientSum, Vector inputs, double costDerivative) {
-        var activated = NetMath.sigmoidDerivative(results.locate(id));
+        var activated = NetMath.reluDerivative(results.locate(id));
         var base = costDerivative * activated;
         var gradient = new Node(inputs, 1d).multiply(base);
         return gradientSum.add(id, costDerivative * activated, gradient);
@@ -128,17 +128,16 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public NetworkState trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch) {
+    public NetworkState trainBatch(Data trainingData, List<Map.Entry<Integer, Boolean>> batch, Function<Boolean, Vector> expected) {
         var state = batch.stream()
                 .reduce(new NetworkState(zero(), 0d), (gradientSum, entry) -> {
-                    return train(trainingData, entry.getKey(), entry.getValue());
+                    return train(trainingData, entry.getKey(), entry.getValue(), expected);
                 }, StreamUtils::selectRight);
 
         var batchSize = batch.size();
         var gradient = state.network()
                 .divide(batchSize)
                 .multiply(Main.LEARNING_RATE);
-
         return new NetworkState(subtract(gradient), state.mse() / batchSize);
     }
 
@@ -159,8 +158,9 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public NetworkState train(Data data, int key, boolean value) {
-        var topology = computeByDepthsForward()
+    public NetworkState train(Data data, int key, boolean value, Function<Boolean, Vector> expected) {
+        var lists = computeByDepthsForward();
+        var topology = lists
                 .stream()
                 .flatMap(Collection::stream)
                 .toList();
@@ -169,11 +169,8 @@ public class GraphNetwork implements Network {
         var inputVector = Vector.from(input);
         var results = forward(inputVector, topology);
 
-        var expectedEven = value ? 1d : 0d;
-        var expectedOdd = value ? 0d : 1d;
-        var actual = results.locate(List.of(Main.EVEN_ID, Main.ODD_ID));
-        var expected = Vector.from(expectedEven, expectedOdd);
-        var error = actual.subtract(expected).sum();
+        var actual = results.locate(lists.get(lists.size() - 1));
+        var error = actual.subtract(expected.apply(value)).sum();
         var mse = Math.pow(error, 2d);
 
         var costDerivative = 2 * error;
@@ -195,22 +192,23 @@ public class GraphNetwork implements Network {
     @Override
     public Gradients backwards(Gradients gradients, int id, Vector inputVector, Calculations results, double costDerivative) {
         if (isRoot(id)) {
-            return backwardsHidden(results, id, gradients, inputVector);
+            var sources = listSources(id);
+            double previousDerivative;
+            if (sources.isEmpty()) {
+                previousDerivative = costDerivative;
+            } else {
+                previousDerivative = sources
+                        .stream()
+                        .mapToDouble(destination -> gradients.locateBase(destination) * findWeight(id, destination))
+                        .sum();
+            }
+
+            return backwardsOutput(results, id, gradients, inputVector, previousDerivative);
         } else {
             var ids = listSources(id);
             var previousInputs = results.locate(ids);
             return backwardsOutput(results, id, gradients, previousInputs, costDerivative);
         }
-    }
-
-    @Override
-    public Gradients backwardsHidden(Calculations results, int source, Gradients gradientSum, Vector inputs) {
-        var previousDerivative = listSources(source)
-                .stream()
-                .mapToDouble(destination -> gradientSum.locateBase(destination) * findWeight(source, destination))
-                .sum();
-
-        return backwardsOutput(results, source, gradientSum, inputs, previousDerivative);
     }
 
     @Override

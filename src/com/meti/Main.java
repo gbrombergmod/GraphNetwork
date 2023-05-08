@@ -10,42 +10,42 @@ public class Main {
 
     public static final double LEARNING_RATE = 1d;
     public static final int BATCH_COUNT = 10;
-    public static final int EVEN_ID = 3;
-    public static final int HIDDEN_ID = 0;
     public static final int ODD_ID = 4;
-    public static final int HIDDEN1_ID = 1;
-    public static final int HIDDEN2_ID = 2;
     public static final int EPOCH_COUNT = 100;
 
     public static void main(String[] args) {
         var data = IntStream.range(0, 1000)
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), key -> key % 2 == 0));
+
         var trainingData = new Data(data);
+        var network = random();
+        measure(trainingData, network);
 
         var trained = IntStream.range(0, EPOCH_COUNT)
                 .boxed()
-                .reduce(random(), (network1, integer) -> {
+                .reduce(network, (network1, integer) -> {
                     var state = trainingData.streamBatches(BATCH_COUNT).reduce(new NetworkState(network1, 0),
                             (network2, batch) -> {
-                                var result = network2.network().trainBatch(trainingData, batch);
+                                var result = network2.network().trainBatch(trainingData, batch, Main::computeExpected);
                                 return new NetworkState(result.network(), network2.mse() + result.mse());
                             },
                             StreamUtils::selectRight);
-
-                    System.out.println(integer + "," + (state.mse() / BATCH_COUNT));
                     return state.network();
                 }, StreamUtils::selectRight);
 
+        measure(trainingData, trained);
+    }
+
+    private static void measure(Data trainingData, Network trained) {
         var totalCorrect = trainingData.stream().mapToInt(entry -> {
             var outputVector = trained.forward(trainingData, entry.getKey());
-            var evenValue = outputVector.apply(0);
-            var oddValue = outputVector.apply(1);
+            var output = outputVector.apply(0);
 
             var isEven = entry.getValue();
-            if (isEven && evenValue > oddValue) {
+            if (isEven && output < 0.5) {
                 return 1;
-            } else if (!isEven && evenValue < oddValue) {
+            } else if (!isEven && output > 0.5) {
                 return 1;
             } else {
                 return 0;
@@ -58,17 +58,33 @@ public class Main {
 
     public static Network random() {
         var nodes = new HashMap<Integer, Node>();
-        nodes.put(HIDDEN_ID, Node.random(1));
-        nodes.put(HIDDEN1_ID, Node.random(1));
-        nodes.put(HIDDEN2_ID, Node.random(1));
-        nodes.put(EVEN_ID, Node.random(3));
-        nodes.put(ODD_ID, Node.random(3));
-
         var topology = new HashMap<Integer, List<Integer>>();
-        topology.put(HIDDEN_ID, List.of(EVEN_ID, ODD_ID));
-        topology.put(HIDDEN1_ID, List.of(EVEN_ID, ODD_ID));
-        topology.put(HIDDEN2_ID, List.of(EVEN_ID, ODD_ID));
 
-        return new GraphNetwork(new MapNodes(nodes), topology);
+        return getGraphNetwork(new GraphNetworkBuilder(nodes, topology));
+    }
+
+    private static GraphNetwork getGraphNetwork(GraphNetworkBuilder graphNetworkBuilder) {
+        var hiddenLayer = createLayer(graphNetworkBuilder, 3, 1);
+        var hiddenLayer1 = createLayer(graphNetworkBuilder, 3, 3);
+        var hiddenLayer2 = createLayer(graphNetworkBuilder, 3, 3);
+        var outputLayer = createLayer(graphNetworkBuilder, 1, 3);
+
+        graphNetworkBuilder.connect(hiddenLayer, hiddenLayer1);
+        graphNetworkBuilder.connect(hiddenLayer1, hiddenLayer2);
+        graphNetworkBuilder.connect(hiddenLayer2, outputLayer);
+
+        return graphNetworkBuilder.toNetwork();
+    }
+
+    private static List<Integer> createLayer(GraphNetworkBuilder graphNetworkBuilder, int layerSize, int inputSize) {
+        return IntStream.range(0, layerSize)
+                .mapToObj(value -> {
+                    return graphNetworkBuilder.create(inputSize);
+                }).collect(Collectors.toList());
+    }
+
+    static Vector computeExpected(boolean value) {
+        var expectedOdd = value ? 0d : 1d;
+        return Vector.from(expectedOdd);
     }
 }

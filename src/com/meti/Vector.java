@@ -25,7 +25,7 @@ final class Vector {
     }
 
     public static Vector random(int size) {
-        return supply(size, index -> Math.random());
+        return supply(size, index -> NetMath.randomFloat());
     }
 
     public static Vector from(double... values) {
