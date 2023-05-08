@@ -9,6 +9,10 @@ public record Node(Vector weight, double bias) {
         return new Node(Vector.random(size), Math.random());
     }
 
+    public Node zero() {
+        return new Node(Vector.zero(weight.size()), 0);
+    }
+
     public double forward(Vector input) {
         if (weight.size() != input.size()) {
             var format = "Weight size '%d' did not match input vector size '%d'.";

@@ -1,5 +1,6 @@
 package com.meti;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ public class Main {
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), key -> key % 2 == 0));
 
-        var network = TempNetwork.random();
+        var network = random();
         System.out.println(network);
 
         var trained = data.entrySet()
@@ -117,4 +118,13 @@ public class Main {
         return t1;
     }
 
+    public static Network random() {
+        var map = new HashMap<Integer, Node>();
+        map.put(0, Node.random(1));
+        map.put(1, Node.random(1));
+        map.put(2, Node.random(1));
+        map.put(3, Node.random(3));
+        map.put(4, Node.random(3));
+        return new GraphNetwork(map);
+    }
 }
