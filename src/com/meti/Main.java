@@ -53,7 +53,7 @@ public class Main {
     private static void measure(Data<Integer> trainingData, Network trained) {
         var totalCorrect = trainingData.stream().mapToInt(entry -> {
             var outputVector = trained.forward(trainingData, entry.getKey());
-            var actual = outputVector.apply(0);
+            var actual = outputVector.apply(0) * 1000d;
             var expected = entry.getValue();
 
             if (Math.abs(((int) actual) - expected) < 10) {
