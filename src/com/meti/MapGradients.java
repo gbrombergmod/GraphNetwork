@@ -15,7 +15,7 @@ public record MapGradients(Calculations baseGradients, Nodes nodeGradients) impl
     }
 
     @Override
-    public Nodes toNodes() {
+    public Nodes asNodes() {
         return nodeGradients;
     }
 

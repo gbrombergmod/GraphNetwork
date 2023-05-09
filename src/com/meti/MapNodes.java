@@ -31,11 +31,11 @@ public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
 
     @Override
     public Nodes addToNode(int id, Node other) {
-        var copy = new HashMap<>(nodes());
+        var copy = new HashMap<>(nodes);
         if(copy.containsKey(id)) {
             copy.computeIfPresent(id, (integer, node) -> node.add(other));
         } else {
-            copy.put(0, other);
+            copy.put(id, other);
         }
 
         return new MapNodes(copy);

@@ -5,7 +5,7 @@ public interface Gradients {
 
     double locateBase(Integer destination);
 
-    Nodes toNodes();
+    Nodes asNodes();
 
     Gradients add(int id, double baseGradient, Node gradient);
 }

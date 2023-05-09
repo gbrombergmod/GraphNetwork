@@ -170,17 +170,17 @@ public class GraphNetwork implements Network {
         var costDerivative = 2 * error;
 
         var gradients = backward(inputVector, topology, results, costDerivative);
-        return new NetworkState(gradientSum.network().add(gradients.toNodes()), mse);
+        var gradientsAsNodes = gradients.asNodes();
+        return new NetworkState(gradientSum.network().add(gradientsAsNodes), mse);
     }
 
     @Override
     public Gradients backward(Vector inputVector, List<Integer> topology, Calculations results, double costDerivative) {
         var copy = new ArrayList<>(topology);
         Collections.reverse(copy);
-        return copy.stream()
-                .reduce(MapGradients.empty(),
-                        (gradients, integer) -> backwards(gradients, integer, inputVector, results, costDerivative),
-                        (previous, next) -> next);
+        return copy.stream().reduce(MapGradients.empty(),
+                (gradients, integer) -> backwards(gradients, integer, inputVector, results, costDerivative),
+                (previous, next) -> next);
     }
 
     @Override
