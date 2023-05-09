@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 
 public interface Network {
 
+    Network addRandomConnection();
+
     <T> NetworkState trainBatch(Data<T> trainingData, List<Map.Entry<Integer, T>> batch, Function<T, Vector> expected);
 
     <T> Vector forward(Data<T> data, int rawInput);
@@ -27,7 +29,7 @@ public interface Network {
 
     List<Integer> listSources(int id);
 
-    Map.Entry<Integer, Integer> randomConnection();
+    Map.Entry<Integer, Integer> findRandomConnection();
 
     Network zero();
 
@@ -56,4 +58,10 @@ public interface Network {
     Network addConnection(int source, int destination);
 
     Map<Integer, List<Integer>> topology();
+
+    int findRandomHiddenNode();
+
+    List<Integer> findParents(int id);
+
+    List<Integer> findChildren(int id);
 }

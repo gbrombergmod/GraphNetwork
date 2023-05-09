@@ -72,14 +72,23 @@ public class Main {
             var after = measure(trainingData, trained);
             System.out.println(before + "% " + after + "%");
             if (after < 100) {
-                var connection = network.randomConnection();
-                var source = connection.getKey();
-                var destination = connection.getValue();
-                network = network.removeConnection(source, destination);
+                network.addRandomConnection();
 
-                var id = network.add(Node.random(1));
-                var newNetwork = network.addConnection(source, id).addConnection(id, destination);
-                network = newNetwork;
+                var rand = Math.random();
+                if (rand < 0.333) {
+                    network = insertRandomNode(network);
+                } else if (rand < 0.666) {
+                    var node = network.findRandomHiddenNode();
+                    var parents = network.findParents(node);
+                    var children = network.findChildren(node);
+
+                    var newID = network.add(Node.random(network.apply(node).size()));
+                    Network finalNetwork = network;
+
+                    parents.forEach(parent -> finalNetwork.addConnection(parent, newID));
+                    children.forEach(child -> finalNetwork.addConnection(newID, child));
+                } else {
+                }
 
                 var topology = network.topology();
                 System.out.println(topology.keySet()
@@ -93,6 +102,16 @@ public class Main {
                         }).collect(Collectors.joining(", ", "[", "]")));
             }
         }
+    }
+
+    private static Network insertRandomNode(Network network) {
+        var connection = network.findRandomConnection();
+        var source = connection.getKey();
+        var destination = connection.getValue();
+        network = network.removeConnection(source, destination);
+
+        var id = network.add(Node.random(1));
+        return network.addConnection(source, id).addConnection(id, destination);
     }
 
     private static double measure(Data<Integer> trainingData, Network trained) {

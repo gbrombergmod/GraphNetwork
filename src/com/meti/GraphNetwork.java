@@ -15,7 +15,7 @@ public class GraphNetwork implements Network {
     }
 
     @Override
-    public Map.Entry<Integer, Integer> randomConnection() {
+    public Map.Entry<Integer, Integer> findRandomConnection() {
         if (topology.isEmpty()) {
             throw new IllegalStateException("Empty topology.");
         }
@@ -96,6 +96,7 @@ public class GraphNetwork implements Network {
         return new GraphNetwork(nodes, topologyCopy);
     }
 
+
     @Override
     public int add(Node node) {
         return nodes.add(node);
@@ -114,6 +115,41 @@ public class GraphNetwork implements Network {
     @Override
     public Map<Integer, List<Integer>> topology() {
         return topology;
+    }
+
+    @Override
+    public int findRandomHiddenNode() {
+        var sources = new HashSet<>(topology.keySet());
+        var destinations = topology.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+
+        sources.removeIf(source -> !destinations.contains(source));
+        var list = new ArrayList<>(sources);
+        if (list.isEmpty()) {
+            throw new IllegalStateException("No hidden nodes present.");
+        } else {
+            return list.get((int) (Math.random() * list.size()));
+        }
+    }
+
+    @Override
+    public List<Integer> findParents(int id) {
+        return topology.keySet()
+                .stream()
+                .flatMap(parentID -> {
+                    if (topology.get(parentID).contains(id)) {
+                        return Stream.of(parentID);
+                    } else {
+                        return Stream.empty();
+                    }
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Integer> findChildren(int id) {
+        return topology.get(id);
     }
 
     private Map<Integer, List<Integer>> computeDepthMap() {
@@ -173,6 +209,45 @@ public class GraphNetwork implements Network {
     public String toString() {
         return nodes.toString();
     }
+
+    @Override
+    public Network addRandomConnection() {
+        if (topology.isEmpty()) {
+            throw new IllegalStateException("Empty topology.");
+        }
+
+        var allNodes = nodes.nodes().keySet().stream().toList();
+        int randomSource;
+        int randomDestination;
+
+        do {
+            randomSource = allNodes.get((int) (Math.random() * allNodes.size()));
+            randomDestination = allNodes.get((int) (Math.random() * allNodes.size()));
+        } while (randomDestination == randomSource || createsCycle(randomSource, randomDestination));
+
+        return addConnection(randomSource, randomDestination);
+    }
+
+    private boolean createsCycle(int source, int destination) {
+        var visited = new LinkedList<Integer>();
+        visited.push(destination);
+
+        while (true) {
+            if (visited.contains(source)) {
+                return true;
+            }
+
+            if (visited.containsAll(nodes.nodes().keySet())) {
+                return false;
+            }
+
+            var neighbor = visited.pop();
+            if (topology.containsKey(neighbor)) {
+                topology.get(neighbor).forEach(visited::push);
+            }
+        }
+    }
+
 
     @Override
     public <T> NetworkState trainBatch(Data<T> trainingData, List<Map.Entry<Integer, T>> batch, Function<T, Vector> expected) {

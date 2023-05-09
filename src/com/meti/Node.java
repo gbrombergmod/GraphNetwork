@@ -43,4 +43,8 @@ public record Node(Vector weight, double bias) {
     public String toCSV() {
         return weight.toCSV() + "," + bias;
     }
+
+    public int size() {
+        return weight.size();
+    }
 }
