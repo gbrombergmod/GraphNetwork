@@ -67,7 +67,7 @@ public class GraphNetwork implements Network {
 
     @Override
     public Stream<Integer> stream() {
-        return topology.keySet().stream().sorted();
+        return nodes.ids().stream().sorted();
     }
 
     private Map<Integer, List<Integer>> computeDepthMap() {

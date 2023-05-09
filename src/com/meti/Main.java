@@ -27,7 +27,9 @@ public class Main {
 
         var builder = new StringBuilder();
         builder.append("EPOCH,MSE,");
-        network.stream().forEach(nodeID -> {
+        var collect = network.stream().collect(Collectors.toList());
+        for (int i = 0; i < collect.size(); i++) {
+            Integer nodeID = collect.get(i);
             var prefix = "NODE" + nodeID;
             var node = network.apply(nodeID);
             var weightCount = node.weight().size();
@@ -38,13 +40,18 @@ public class Main {
                     .append(weightIndex)
                     .append(","));
 
-            builder.append(prefix).append("_BIAS,");
-        });
+            builder.append(prefix).append("_BIAS");
+            if (i != collect.size() - 1) {
+                builder.append(",");
+            }
+        }
         builder.append("\n");
 
         var trained = IntStream.range(0, EPOCH_COUNT)
                 .boxed()
                 .reduce(network, (network1, integer) -> {
+                    System.out.println("EPOCH: " + EPOCH_COUNT);
+
                     var state = trainingData.streamBatches(BATCH_COUNT).reduce(new NetworkState(network1, 0),
                             (network2, batch) -> {
                                 var result = network2.network().trainBatch(trainingData, batch, Main::computeExpected);
@@ -91,13 +98,17 @@ public class Main {
     }
 
     private static GraphNetwork getGraphNetwork(GraphNetworkBuilder builder) {
-        var hidden = builder.createLayer(3, 1);
-        var hidden1 = builder.createLayer(3, 3);
-        var hidden2 = builder.createLayer(3, 3);
-        var output = builder.createLayer(1, 3);
+        var input = builder.createLayer(1, 1);
+        var hidden = builder.createLayer(10, 1);
+        builder.connect(input, hidden);
 
+        var hidden1 = builder.createLayer(10, 10);
         builder.connect(hidden, hidden1);
+
+        var hidden2 = builder.createLayer(10, 10);
         builder.connect(hidden1, hidden2);
+
+        var output = builder.createLayer(1, 10);
         builder.connect(hidden2, output);
 
         return builder.toNetwork();
