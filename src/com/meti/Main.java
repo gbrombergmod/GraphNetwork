@@ -21,7 +21,7 @@ public class Main {
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), key -> key));
 
-        var trainingData = new Data<>(data);
+        var trainingData = new MapData<>(data);
         var network = random();
         measure(trainingData, network);
 
