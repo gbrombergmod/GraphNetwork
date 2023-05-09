@@ -75,10 +75,14 @@ public class Main {
     }
 
     private static GraphNetwork getGraphNetwork(GraphNetworkBuilder builder) {
-        var hidden = builder.createLayer(1, 1);
-        var output = builder.createLayer(1, 1);
+        var hidden = builder.createLayer(3, 1);
+        var hidden1 = builder.createLayer(3, 3);
+        var hidden2 = builder.createLayer(3, 3);
+        var output = builder.createLayer(1, 3);
 
-        builder.connect(hidden, output);
+        builder.connect(hidden, hidden1);
+        builder.connect(hidden1, hidden2);
+        builder.connect(hidden2, output);
 
         return builder.toNetwork();
     }

@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Test MapNodes.add">
-      <change afterPath="$PROJECT_DIR$/test/com/meti/MapGradientsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/com/meti/NetMathTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Gradients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Gradients.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Fix bug in MapNodes where default key was 0?">
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/MapGradients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapGradients.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/MapNodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapNodes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/temp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,21 +179,7 @@
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
       <workItem from="1683563431983" duration="13292000" />
-      <workItem from="1683592159728" duration="2467000" />
-    </task>
-    <task id="LOCAL-00005" summary="Replace with average training">
-      <created>1683315164571</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1683315164571</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Introduce chunks">
-      <created>1683315475285</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1683315475285</updated>
+      <workItem from="1683592159728" duration="2781000" />
     </task>
     <task id="LOCAL-00007" summary="Fix vector addition">
       <created>1683317293236</created>
@@ -532,15 +510,27 @@
       <option name="project" value="LOCAL" />
       <updated>1683593610849</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Test MapGradients">
+      <created>1683594675693</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1683594675693</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Fix bug in MapNodes where default key was 0?">
+      <created>1683594939021</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1683594939021</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Push output into cache" />
-    <MESSAGE value="Extract Nodes" />
     <MESSAGE value="Add topological sorting" />
     <MESSAGE value="Replace forwarding with mapping function" />
     <MESSAGE value="Replace forwarding with stream" />
@@ -564,9 +554,20 @@
     <MESSAGE value="???" />
     <MESSAGE value="Extract MapData" />
     <MESSAGE value="Test MapNodes.add" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test MapNodes.add" />
+    <MESSAGE value="Test MapGradients" />
+    <MESSAGE value="Fix bug in MapNodes where default key was 0?" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bug in MapNodes where default key was 0?" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/meti/GraphNetwork.java</url>
+          <line>180</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="topology.get(3)" />
