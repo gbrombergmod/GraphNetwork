@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="IT TRAINS">
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/MapNodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapNodes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/Nodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Nodes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp.csv" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Extract MapData">
+      <change afterPath="$PROJECT_DIR$/test/com/meti/MapNodesTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,9 +16,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
-        <option value="JUnit5 Test Class" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -87,7 +84,7 @@
       <recent name="com.meti" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.MapNodesTest.add">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.meti.Main" />
       <module name="GraphNetwork" />
@@ -142,8 +139,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MapNodesTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GraphNetwork" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.meti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.meti" />
+      <option name="MAIN_CLASS_NAME" value="com.meti.MapNodesTest" />
+      <option name="METHOD_NAME" value="add" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MapNodesTest.add" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.GraphNetworkTest" />
         <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_singleRoot" />
@@ -164,21 +178,7 @@
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
       <workItem from="1683563431983" duration="13292000" />
-      <workItem from="1683592159728" duration="1091000" />
-    </task>
-    <task id="LOCAL-00002" summary="Add base code">
-      <created>1683310496176</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1683310496176</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Train with basic backprop">
-      <created>1683314844649</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1683314844649</updated>
+      <workItem from="1683592159728" duration="1416000" />
     </task>
     <task id="LOCAL-00004" summary="Add simple backprop">
       <created>1683314930014</created>
@@ -509,14 +509,27 @@
       <option name="project" value="LOCAL" />
       <updated>1683592925017</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="???">
+      <created>1683593464079</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1683593464079</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Extract MapData">
+      <created>1683593499076</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1683593499076</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove application-specific code from Network" />
     <MESSAGE value="Add connection map" />
     <MESSAGE value="Push output into cache" />
     <MESSAGE value="Extract Nodes" />
@@ -538,10 +551,11 @@
     <MESSAGE value="Fix topology description" />
     <MESSAGE value="Prepare for mean squared error" />
     <MESSAGE value="I have more interesting numbers than 50%." />
-    <MESSAGE value="???" />
     <MESSAGE value="Training network?" />
     <MESSAGE value="IT TRAINS" />
-    <option name="LAST_COMMIT_MESSAGE" value="IT TRAINS" />
+    <MESSAGE value="???" />
+    <MESSAGE value="Extract MapData" />
+    <option name="LAST_COMMIT_MESSAGE" value="Extract MapData" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
