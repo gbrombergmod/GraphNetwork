@@ -112,4 +112,8 @@ final class Vector {
     public Vector map(DoubleFunction<Double> mapper) {
         return supply(values().size(), index -> mapper.apply(values.get(index)));
     }
+
+    public Vector divide(double scalar) {
+        return multiply(1d / scalar);
+    }
 }

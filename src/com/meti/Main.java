@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    public static final double LEARNING_RATE = 0.01d;
+    public static final double LEARNING_RATE = 1d;
     public static final int BATCH_COUNT = 100;
     public static final int ODD_ID = 4;
     public static final int EPOCH_COUNT = 100;

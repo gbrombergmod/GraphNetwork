@@ -19,7 +19,7 @@ public record Data<T>(Map<Integer, T> data) {
     }
 
     double normalize(int key) {
-        return key;
+        return key / 1000d;
     }
 
     public double size() {

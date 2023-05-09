@@ -170,8 +170,10 @@ public class GraphNetwork implements Network {
         var inputVector = Vector.from(input);
         var results = forward(inputVector, topology);
 
-        var actual = results.locate(lists.get(lists.size() - 1)).map(NetMath::logit);
-        var error = actual.subtract(expected.apply(value)).sum();
+        var actual = results.locate(lists.get(lists.size() - 1));
+        var divide = expected.apply(value).divide(1000d);
+
+        var error = actual.subtract(divide).sum();
         var mse = Math.pow(error, 2d);
 
         var costDerivative = 2 * error;
