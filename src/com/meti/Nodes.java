@@ -11,4 +11,6 @@ public interface Nodes {
     Node apply(int id);
 
     Collection<Integer> ids();
+
+    String toCSV();
 }

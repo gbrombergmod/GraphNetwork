@@ -3,6 +3,7 @@ package com.meti;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public interface Network {
 
@@ -41,4 +42,8 @@ public interface Network {
     Node apply(int key);
 
     List<List<Integer>> computeByDepthsForward();
+
+    String toCSV();
+
+    Stream<Integer> stream();
 }

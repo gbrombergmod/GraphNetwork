@@ -60,6 +60,16 @@ public class GraphNetwork implements Network {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String toCSV() {
+        return nodes.toCSV();
+    }
+
+    @Override
+    public Stream<Integer> stream() {
+        return topology.keySet().stream().sorted();
+    }
+
     private Map<Integer, List<Integer>> computeDepthMap() {
         Map<Integer, Integer> depthMap = new HashMap<>();
         Map<Integer, Boolean> visited = new HashMap<>();

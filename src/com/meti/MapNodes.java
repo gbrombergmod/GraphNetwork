@@ -56,6 +56,16 @@ public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
         return nodes.keySet();
     }
 
+    @Override
+    public String toCSV() {
+        return nodes.keySet()
+                .stream()
+                .sorted()
+                .map(nodes::get)
+                .map(Node::toCSV)
+                .collect(Collectors.joining(","));
+    }
+
     MapNodes computeIfPresent(Function<Map.Entry<Integer, Node>, Node> mapper) {
         return new MapNodes(nodes().entrySet()
                 .stream()

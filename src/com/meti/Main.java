@@ -26,6 +26,22 @@ public class Main {
         measure(trainingData, network);
 
         var builder = new StringBuilder();
+        builder.append("EPOCH,MSE,");
+        network.stream().forEach(nodeID -> {
+            var prefix = "NODE" + nodeID;
+            var node = network.apply(nodeID);
+            var weightCount = node.weight().size();
+
+            IntStream.range(0, weightCount).forEach(weightIndex -> builder
+                    .append(prefix)
+                    .append("_WEIGHT")
+                    .append(weightIndex)
+                    .append(","));
+
+            builder.append(prefix).append("_BIAS,");
+        });
+        builder.append("\n");
+
         var trained = IntStream.range(0, EPOCH_COUNT)
                 .boxed()
                 .reduce(network, (network1, integer) -> {
@@ -40,7 +56,7 @@ public class Main {
                             .append(",")
                             .append(state.mse())
                             .append(",")
-                            .append(network1)
+                            .append(network1.toCSV())
                             .append("\n");
                     return state.network();
                 }, StreamUtils::selectRight);

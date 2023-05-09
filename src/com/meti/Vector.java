@@ -102,18 +102,17 @@ final class Vector {
         return Objects.hash(values);
     }
 
-    @Override
-    public String toString() {
-        return values.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining(","));
-    }
-
     public Vector map(DoubleFunction<Double> mapper) {
         return supply(values().size(), index -> mapper.apply(values.get(index)));
     }
 
     public Vector divide(double scalar) {
         return multiply(1d / scalar);
+    }
+
+    public String toCSV() {
+        return values.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(","));
     }
 }

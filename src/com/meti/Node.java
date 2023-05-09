@@ -39,4 +39,8 @@ public record Node(Vector weight, double bias) {
     public Node subtract(Node other) {
         return new Node(weight.add(other.weight.negate()), bias - other.bias);
     }
+
+    public String toCSV() {
+        return weight.toCSV() + "," + bias;
+    }
 }
