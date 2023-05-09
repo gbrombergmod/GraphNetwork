@@ -3,8 +3,6 @@ package com.meti;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,12 +20,12 @@ public class Main {
                 .collect(Collectors.toMap(Function.identity(), key -> key));
 
         var trainingData = new MapData<>(data);
-        var network = random();
-        measure(trainingData, network);
+        var network = (Network) build();
+        var before = measure(trainingData, network);
 
         var builder = new StringBuilder();
         builder.append("EPOCH,MSE,");
-        var collect = network.stream().collect(Collectors.toList());
+        var collect = network.stream().toList();
         for (int i = 0; i < collect.size(); i++) {
             Integer nodeID = collect.get(i);
             var prefix = "NODE" + nodeID;
@@ -50,7 +48,7 @@ public class Main {
         var trained = IntStream.range(0, EPOCH_COUNT)
                 .boxed()
                 .reduce(network, (network1, integer) -> {
-                    System.out.println("EPOCH: " + EPOCH_COUNT);
+                    System.out.println("EPOCH: " + integer);
 
                     var state = trainingData.streamBatches(BATCH_COUNT).reduce(new NetworkState(network1, 0),
                             (network2, batch) -> {
@@ -70,10 +68,11 @@ public class Main {
 
         Files.writeString(Path.of(".", "temp.csv"), builder);
 
-        measure(trainingData, trained);
+        var after = measure(trainingData, trained);
+        System.out.println(before + "% " + after + "%");
     }
 
-    private static void measure(Data<Integer> trainingData, Network trained) {
+    private static double measure(Data<Integer> trainingData, Network trained) {
         var totalCorrect = trainingData.stream().mapToInt(entry -> {
             var outputVector = trained.forward(trainingData, entry.getKey());
             var actual = outputVector.apply(0) * 1000d;
@@ -87,30 +86,12 @@ public class Main {
         }).sum();
 
         var percentage = (double) totalCorrect / trainingData.size();
-        System.out.println((percentage * 100) + "%");
+        return percentage * 100;
     }
 
-    public static Network random() {
-        var nodes = new HashMap<Integer, Node>();
-        var topology = new HashMap<Integer, List<Integer>>();
-
-        return getGraphNetwork(new GraphNetworkBuilder(nodes, topology));
-    }
-
-    private static GraphNetwork getGraphNetwork(GraphNetworkBuilder builder) {
-        var input = builder.createLayer(1, 1);
-        var hidden = builder.createLayer(10, 1);
-        builder.connect(input, hidden);
-
-        var hidden1 = builder.createLayer(10, 10);
-        builder.connect(hidden, hidden1);
-
-        var hidden2 = builder.createLayer(10, 10);
-        builder.connect(hidden1, hidden2);
-
-        var output = builder.createLayer(1, 10);
-        builder.connect(hidden2, output);
-
+    private static GraphNetwork build() {
+        var builder = new GraphNetworkBuilder();
+        builder.createLayer(1, 1);
         return builder.toNetwork();
     }
 

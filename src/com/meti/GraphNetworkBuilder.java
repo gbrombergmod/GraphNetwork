@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public record GraphNetworkBuilder(Map<Integer, Node> nodes, Map<Integer, List<Integer>> topology) {
+    public GraphNetworkBuilder() {
+        this(new HashMap<>(), new HashMap<>());
+    }
+
     List<Integer> createLayer(int layerSize, int inputSize) {
         return IntStream.range(0, layerSize)
                 .mapToObj(value -> {
