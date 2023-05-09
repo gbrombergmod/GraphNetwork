@@ -25,4 +25,12 @@ public record MapGradients(Calculations baseGradients, Nodes nodeGradients) impl
         var newNodeGradients = nodeGradients.addToNode(id, gradient);
         return new MapGradients(newBaseGradients, newNodeGradients);
     }
+
+    @Override
+    public Gradients backwardsOutput(int id, Vector inputs, double output, double upstreamDerivative) {
+        var activated = NetMath.sigmoidDerivative(output);
+        var base = upstreamDerivative * activated;
+        var gradient = new Node(inputs, 1d).multiply(base);
+        return add(id, upstreamDerivative * activated, gradient);
+    }
 }

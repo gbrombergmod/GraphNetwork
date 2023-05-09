@@ -3,7 +3,7 @@ package com.meti;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
@@ -54,5 +54,11 @@ public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
     @Override
     public Collection<Integer> ids() {
         return nodes.keySet();
+    }
+
+    MapNodes computeIfPresent(Function<Map.Entry<Integer, Node>, Node> mapper) {
+        return new MapNodes(nodes().entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, mapper)));
     }
 }

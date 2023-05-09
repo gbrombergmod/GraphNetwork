@@ -14,13 +14,6 @@ public class GraphNetwork implements Network {
         this.topology = topology;
     }
 
-    public static Gradients backwardsOutput(Calculations outputs, int id, Gradients gradientSum, Vector inputs, double costDerivative) {
-        var activated = NetMath.sigmoidDerivative(outputs.locate(id));
-        var base = costDerivative * activated;
-        var gradient = new Node(inputs, 1d).multiply(base);
-        return gradientSum.add(id, costDerivative * activated, gradient);
-    }
-
     @Override
     public Network zero() {
         return computeIfPresent(entry -> entry.getValue().zero());
@@ -37,9 +30,7 @@ public class GraphNetwork implements Network {
     }
 
     private GraphNetwork computeIfPresent(Function<Map.Entry<Integer, Node>, Node> mapper) {
-        return new GraphNetwork(new MapNodes(nodes.nodes().entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, mapper))), topology);
+        return new GraphNetwork(nodes.computeIfPresent(mapper), topology);
     }
 
     @Override
@@ -130,9 +121,9 @@ public class GraphNetwork implements Network {
     @Override
     public <T> NetworkState trainBatch(Data<T> trainingData, List<Map.Entry<Integer, T>> batch, Function<T, Vector> expected) {
         var state = batch.stream()
-                .reduce(new NetworkState(zero(), 0d), (gradientSum, entry) -> {
-                    return train(trainingData, entry.getKey(), entry.getValue(), expected, gradientSum);
-                }, StreamUtils::selectRight);
+                .reduce(new NetworkState(zero(), 0d),
+                        (gradientSum, entry) -> train(trainingData, entry.getKey(), entry.getValue(), expected, gradientSum),
+                        StreamUtils::selectRight);
 
         var batchSize = batch.size();
         var gradient = state.network()
@@ -206,11 +197,11 @@ public class GraphNetwork implements Network {
                         .sum();
             }
 
-            return backwardsOutput(results, id, gradients, inputVector, previousDerivative);
+            return gradients.backwardsOutput(id, inputVector, results.locate(id), previousDerivative);
         } else {
             var ids = listSources(id);
             var previousInputs = results.locate(ids);
-            return backwardsOutput(results, id, gradients, previousInputs, costDerivative);
+            return gradients.backwardsOutput(id, previousInputs, results.locate(id), costDerivative);
         }
     }
 

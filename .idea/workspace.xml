@@ -4,8 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Extract MapData">
-      <change afterPath="$PROJECT_DIR$/test/com/meti/MapNodesTest.java" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Test MapNodes.add">
+      <change afterPath="$PROJECT_DIR$/test/com/meti/MapGradientsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/com/meti/NetMathTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Gradients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Gradients.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/MapGradients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapGradients.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/MapNodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapNodes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/com/meti/GraphNetworkTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +93,7 @@
       <recent name="com.meti" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MapNodesTest.add">
+  <component name="RunManager" selected="JUnit.MapGradientsTest.backwardsOutput">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.meti.Main" />
       <module name="GraphNetwork" />
@@ -107,7 +116,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GraphNetworkTest.testSortByDepthForwards_multipleRoots" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MapGradientsTest.backwardsOutput" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="GraphNetwork" />
       <extension name="coverage">
         <pattern>
@@ -116,24 +125,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.meti" />
-      <option name="MAIN_CLASS_NAME" value="com.meti.GraphNetworkTest" />
-      <option name="METHOD_NAME" value="testSortByDepthForwards_multipleRoots" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GraphNetworkTest.testSortByDepthForwards_singleRoot" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="GraphNetwork" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.meti.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.meti" />
-      <option name="MAIN_CLASS_NAME" value="com.meti.GraphNetworkTest" />
-      <option name="METHOD_NAME" value="testSortByDepthForwards_singleRoot" />
+      <option name="MAIN_CLASS_NAME" value="com.meti.MapGradientsTest" />
+      <option name="METHOD_NAME" value="backwardsOutput" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -155,13 +148,29 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NetMathTest.sigmoidDerivative" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="GraphNetwork" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.meti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.meti" />
+      <option name="MAIN_CLASS_NAME" value="com.meti.NetMathTest" />
+      <option name="METHOD_NAME" value="sigmoidDerivative" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MapNodesTest.add" />
+        <item itemvalue="JUnit.MapGradientsTest.backwardsOutput" />
+        <item itemvalue="JUnit.NetMathTest.sigmoidDerivative" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.MapNodesTest.add" />
         <item itemvalue="JUnit.GraphNetworkTest" />
-        <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_singleRoot" />
-        <item itemvalue="JUnit.GraphNetworkTest.testSortByDepthForwards_multipleRoots" />
       </list>
     </recent_temporary>
   </component>
@@ -178,14 +187,7 @@
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
       <workItem from="1683563431983" duration="13292000" />
-      <workItem from="1683592159728" duration="1416000" />
-    </task>
-    <task id="LOCAL-00004" summary="Add simple backprop">
-      <created>1683314930014</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1683314930014</updated>
+      <workItem from="1683592159728" duration="2467000" />
     </task>
     <task id="LOCAL-00005" summary="Replace with average training">
       <created>1683315164571</created>
@@ -523,14 +525,20 @@
       <option name="project" value="LOCAL" />
       <updated>1683593499076</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Test MapNodes.add">
+      <created>1683593610849</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1683593610849</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add connection map" />
     <MESSAGE value="Push output into cache" />
     <MESSAGE value="Extract Nodes" />
     <MESSAGE value="Add topological sorting" />
@@ -555,7 +563,8 @@
     <MESSAGE value="IT TRAINS" />
     <MESSAGE value="???" />
     <MESSAGE value="Extract MapData" />
-    <option name="LAST_COMMIT_MESSAGE" value="Extract MapData" />
+    <MESSAGE value="Test MapNodes.add" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test MapNodes.add" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
