@@ -15,6 +15,19 @@ public class GraphNetwork implements Network {
     }
 
     @Override
+    public Map.Entry<Integer, Integer> randomConnection() {
+        if (topology.isEmpty()) {
+            throw new IllegalStateException("Empty topology.");
+        }
+
+        var sources = topology.keySet().stream().toList();
+        var randomSource = sources.get((int) (Math.random() * sources.size()));
+        var randomDestinations = topology.get(randomSource);
+        var randomDestination = randomDestinations.get((int) (Math.random() * randomDestinations.size()));
+        return new AbstractMap.SimpleEntry<>(randomSource, randomDestination);
+    }
+
+    @Override
     public Network zero() {
         return computeIfPresent(entry -> entry.getValue().zero());
     }
@@ -68,6 +81,34 @@ public class GraphNetwork implements Network {
     @Override
     public Stream<Integer> stream() {
         return nodes.ids().stream().sorted();
+    }
+
+    @Override
+    public Network removeConnection(int source, int destination) {
+        var destinations = topology.get(source);
+        var destinationsCopy = new ArrayList<>(destinations);
+        if (destinationsCopy.contains(destination)) {
+            destinationsCopy.remove((Object) destination);
+        }
+
+        var topologyCopy = new HashMap<>(topology);
+        topologyCopy.put(source, destinationsCopy);
+        return new GraphNetwork(nodes, topologyCopy);
+    }
+
+    @Override
+    public int add(Node node) {
+        return nodes.add(node);
+    }
+
+    @Override
+    public Network addConnection(int source, int destination) {
+        if (!topology.containsKey(source)) {
+            topology.put(source, new ArrayList<>());
+        }
+
+        topology.get(source).add(destination);
+        return this;
     }
 
     private Map<Integer, List<Integer>> computeDepthMap() {

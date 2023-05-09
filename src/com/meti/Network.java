@@ -27,6 +27,8 @@ public interface Network {
 
     List<Integer> listSources(int id);
 
+    Map.Entry<Integer, Integer> randomConnection();
+
     Network zero();
 
     default Network divide(double scalar) {
@@ -46,4 +48,10 @@ public interface Network {
     String toCSV();
 
     Stream<Integer> stream();
+
+    Network removeConnection(int source, int destination);
+
+    int add(Node node);
+
+    Network addConnection(int source, int destination);
 }

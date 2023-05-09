@@ -14,61 +14,74 @@ public class Main {
     public static final int EPOCH_COUNT = 100;
 
     public static void main(String[] args) throws IOException {
-        var data = IntStream.range(0, 1000)
+        var data = IntStream.range(0, 100)
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), key -> key));
 
         var trainingData = new MapData<>(data);
         var network = (Network) build();
-        var before = measure(trainingData, network);
 
-        var builder = new StringBuilder();
-        builder.append("EPOCH,MSE,");
-        var collect = network.stream().toList();
-        for (int i = 0; i < collect.size(); i++) {
-            Integer nodeID = collect.get(i);
-            var prefix = "NODE" + nodeID;
-            var node = network.apply(nodeID);
-            var weightCount = node.weight().size();
+        for (int i = 0; i < 10; i++) {
+            System.out.println("ITERATION: " + i);
 
-            IntStream.range(0, weightCount).forEach(weightIndex -> builder
-                    .append(prefix)
-                    .append("_WEIGHT")
-                    .append(weightIndex)
-                    .append(","));
+            var before = measure(trainingData, network);
+            var builder = new StringBuilder();
+            builder.append("EPOCH,MSE,");
+            var collect = network.stream().toList();
+            for (var j = 0; j < collect.size(); j++) {
+                Integer nodeID = collect.get(j);
+                var prefix = "NODE" + nodeID;
+                var node = network.apply(nodeID);
+                var weightCount = node.weight().size();
 
-            builder.append(prefix).append("_BIAS");
-            if (i != collect.size() - 1) {
-                builder.append(",");
+                IntStream.range(0, weightCount).forEach(weightIndex -> builder
+                        .append(prefix)
+                        .append("_WEIGHT")
+                        .append(weightIndex)
+                        .append(","));
+
+                builder.append(prefix).append("_BIAS");
+                if (j != collect.size() - 1) {
+                    builder.append(",");
+                }
+            }
+            builder.append("\n");
+
+            var trained = IntStream.range(0, EPOCH_COUNT)
+                    .boxed()
+                    .reduce(network, (network1, integer) -> {
+                        var state = trainingData.streamBatches(BATCH_COUNT).reduce(new NetworkState(network1, 0),
+                                (network2, batch) -> {
+                                    var result = network2.network().trainBatch(trainingData, batch, Main::computeExpected);
+                                    return new NetworkState(result.network(), network2.mse() + result.mse());
+                                },
+                                StreamUtils::selectRight);
+
+                        builder.append(integer)
+                                .append(",")
+                                .append(state.mse())
+                                .append(",")
+                                .append(network1.toCSV())
+                                .append("\n");
+                        return state.network();
+                    }, StreamUtils::selectRight);
+
+            Files.writeString(Path.of(".", "temp.csv"), builder);
+
+            var after = measure(trainingData, trained);
+            System.out.println(before + "% " + after + "%");
+            if (after < 100) {
+                var connection = network.randomConnection();
+                var source = connection.getKey();
+                var destination = connection.getValue();
+                network = network.removeConnection(source, destination);
+
+                var id = network.add(Node.random(1));
+                var newNetwork = network.addConnection(source, id).addConnection(id, destination);
+                network = newNetwork;
+                System.out.println(network);
             }
         }
-        builder.append("\n");
-
-        var trained = IntStream.range(0, EPOCH_COUNT)
-                .boxed()
-                .reduce(network, (network1, integer) -> {
-                    System.out.println("EPOCH: " + integer);
-
-                    var state = trainingData.streamBatches(BATCH_COUNT).reduce(new NetworkState(network1, 0),
-                            (network2, batch) -> {
-                                var result = network2.network().trainBatch(trainingData, batch, Main::computeExpected);
-                                return new NetworkState(result.network(), network2.mse() + result.mse());
-                            },
-                            StreamUtils::selectRight);
-
-                    builder.append(integer)
-                            .append(",")
-                            .append(state.mse())
-                            .append(",")
-                            .append(network1.toCSV())
-                            .append("\n");
-                    return state.network();
-                }, StreamUtils::selectRight);
-
-        Files.writeString(Path.of(".", "temp.csv"), builder);
-
-        var after = measure(trainingData, trained);
-        System.out.println(before + "% " + after + "%");
     }
 
     private static double measure(Data<Integer> trainingData, Network trained) {
@@ -90,7 +103,10 @@ public class Main {
 
     private static GraphNetwork build() {
         var builder = new GraphNetworkBuilder();
-        builder.createLayer(1, 1);
+        var input = builder.createLayer(1, 1);
+        var output = builder.createLayer(1, 1);
+
+        builder.connect(input, output);
         return builder.toNetwork();
     }
 

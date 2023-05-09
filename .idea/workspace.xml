@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="More runs">
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Remove unused field">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetworkBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetworkBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/MapNodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapNodes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,21 +183,7 @@
       <workItem from="1683478770624" duration="594000" />
       <workItem from="1683563431983" duration="13292000" />
       <workItem from="1683592159728" duration="5017000" />
-      <workItem from="1683599477323" duration="301000" />
-    </task>
-    <task id="LOCAL-00010" summary="Add Main">
-      <created>1683413224167</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1683413224167</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Add simple node">
-      <created>1683414293046</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1683414293046</updated>
+      <workItem from="1683599477323" duration="1180000" />
     </task>
     <task id="LOCAL-00012" summary="Add batches">
       <created>1683414518936</created>
@@ -527,15 +514,27 @@
       <option name="project" value="LOCAL" />
       <updated>1683596717616</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="More training things">
+      <created>1683599798748</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1683599798749</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Remove unused field">
+      <created>1683599811211</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1683599811211</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Extract Results" />
-    <MESSAGE value="Replace cost function with vector math" />
     <MESSAGE value="Remove duplicate locations" />
     <MESSAGE value="Replace bases with a map" />
     <MESSAGE value="Break down addToNode invocations" />
@@ -559,7 +558,9 @@
     <MESSAGE value="Interesting" />
     <MESSAGE value="Fix data output" />
     <MESSAGE value="More runs" />
-    <option name="LAST_COMMIT_MESSAGE" value="More runs" />
+    <MESSAGE value="More training things" />
+    <MESSAGE value="Remove unused field" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove unused field" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

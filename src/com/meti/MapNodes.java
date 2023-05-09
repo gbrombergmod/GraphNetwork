@@ -71,4 +71,10 @@ public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, mapper)));
     }
+
+    public int add(Node node) {
+        var id = nodes.size();
+        nodes.put(id, node);
+        return id;
+    }
 }
