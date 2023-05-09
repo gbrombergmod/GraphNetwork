@@ -74,19 +74,17 @@ public class Main {
         return getGraphNetwork(new GraphNetworkBuilder(nodes, topology));
     }
 
-    private static GraphNetwork getGraphNetwork(GraphNetworkBuilder graphNetworkBuilder) {
-        graphNetworkBuilder.createLayer(1, 1);
+    private static GraphNetwork getGraphNetwork(GraphNetworkBuilder builder) {
+        var hiddenLayer = builder.createLayer(3, 1);
+        var hiddenLayer1 = builder.createLayer(3, 3);
+        var hiddenLayer2 = builder.createLayer(3, 3);
+        var outputLayer = builder.createLayer(1, 3);
 
-        /*   var hiddenLayer = createLayer(graphNetworkBuilder, 3, 1);
-        var hiddenLayer1 = createLayer(graphNetworkBuilder, 3, 3);
-        var hiddenLayer2 = createLayer(graphNetworkBuilder, 3, 3);
-        var outputLayer = createLayer(graphNetworkBuilder, 1, 3);
+        builder.connect(hiddenLayer, hiddenLayer1);
+        builder.connect(hiddenLayer1, hiddenLayer2);
+        builder.connect(hiddenLayer2, outputLayer);
 
-        graphNetworkBuilder.connect(hiddenLayer, hiddenLayer1);
-        graphNetworkBuilder.connect(hiddenLayer1, hiddenLayer2);
-        graphNetworkBuilder.connect(hiddenLayer2, outputLayer);*/
-
-        return graphNetworkBuilder.toNetwork();
+        return builder.toNetwork();
     }
 
     static Vector computeExpected(int value) {

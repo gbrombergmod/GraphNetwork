@@ -5,11 +5,6 @@ public record Node(Vector weight, double bias) {
         this(Vector.zero(0), bias);
     }
 
-    @Override
-    public String toString() {
-        return weight.toString() + "," + bias;
-    }
-
     public static Node zero(int size) {
         return new Node(Vector.zero(size), 0);
     }

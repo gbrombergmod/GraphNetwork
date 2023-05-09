@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Training network?">
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="IT TRAINS">
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/MapNodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapNodes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/meti/Nodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Nodes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/temp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -161,14 +164,7 @@
       <workItem from="1683412722985" duration="6377000" />
       <workItem from="1683478770624" duration="594000" />
       <workItem from="1683563431983" duration="13292000" />
-      <workItem from="1683592159728" duration="671000" />
-    </task>
-    <task id="LOCAL-00001" summary="Add Main">
-      <created>1683310253464</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1683310253464</updated>
+      <workItem from="1683592159728" duration="1091000" />
     </task>
     <task id="LOCAL-00002" summary="Add base code">
       <created>1683310496176</created>
@@ -506,14 +502,20 @@
       <option name="project" value="LOCAL" />
       <updated>1683592709598</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="IT TRAINS">
+      <created>1683592925016</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1683592925017</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Replace TempNetwork with GraphNetwork" />
     <MESSAGE value="Remove application-specific code from Network" />
     <MESSAGE value="Add connection map" />
     <MESSAGE value="Push output into cache" />
@@ -538,7 +540,8 @@
     <MESSAGE value="I have more interesting numbers than 50%." />
     <MESSAGE value="???" />
     <MESSAGE value="Training network?" />
-    <option name="LAST_COMMIT_MESSAGE" value="Training network?" />
+    <MESSAGE value="IT TRAINS" />
+    <option name="LAST_COMMIT_MESSAGE" value="IT TRAINS" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
