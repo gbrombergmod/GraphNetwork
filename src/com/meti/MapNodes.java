@@ -27,7 +27,7 @@ public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
         return new MapNodes(nodes.entrySet()
                 .stream().collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        entry -> entry.getValue().add(nodes.get(entry.getKey())))));
+                        entry -> entry.getValue().add(other.apply(entry.getKey())))));
     }
 
     @Override
@@ -40,5 +40,10 @@ public record MapNodes(Map<Integer, Node> nodes) implements Nodes {
         }
 
         return new MapNodes(copy);
+    }
+
+    @Override
+    public Node apply(int id) {
+        return nodes.get(id);
     }
 }

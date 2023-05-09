@@ -30,7 +30,7 @@ public record Node(Vector weight, double bias) {
         }
 
         var evaluated = weight.multiply(input).sum() + bias;
-        return NetMath.relu(evaluated);
+        return NetMath.sigmoid(evaluated);
     }
 
     public Node multiply(double scalar) {

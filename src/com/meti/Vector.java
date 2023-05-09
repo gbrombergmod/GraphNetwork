@@ -2,6 +2,7 @@ package com.meti;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.DoubleFunction;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -106,5 +107,9 @@ final class Vector {
         return values.stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+    }
+
+    public Vector map(DoubleFunction<Double> mapper) {
+        return supply(values().size(), index -> mapper.apply(values.get(index)));
     }
 }

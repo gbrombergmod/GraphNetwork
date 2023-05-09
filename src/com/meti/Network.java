@@ -10,6 +10,8 @@ public interface Network {
 
     <T> Vector forward(Data<T> data, int rawInput);
 
+    <T> NetworkState train(Data<T> data, int key, T value, Function<T, Vector> expected, NetworkState gradientSum);
+
     Gradients backward(Vector inputVector, List<Integer> topology, Calculations results, double costDerivative);
 
     Gradients backwards(Gradients gradients, int id, Vector inputVector, Calculations results, double costDerivative);

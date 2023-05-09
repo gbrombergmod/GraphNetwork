@@ -1,5 +1,8 @@
 package com.meti;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
@@ -8,20 +11,21 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    public static final double LEARNING_RATE = 1d;
-    public static final int BATCH_COUNT = 10;
+    public static final double LEARNING_RATE = 0.01d;
+    public static final int BATCH_COUNT = 100;
     public static final int ODD_ID = 4;
     public static final int EPOCH_COUNT = 100;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         var data = IntStream.range(0, 1000)
                 .boxed()
-                .collect(Collectors.toMap(Function.identity(), key -> key * key));
+                .collect(Collectors.toMap(Function.identity(), key -> key));
 
         var trainingData = new Data<>(data);
         var network = random();
         measure(trainingData, network);
 
+        var builder = new StringBuilder();
         var trained = IntStream.range(0, EPOCH_COUNT)
                 .boxed()
                 .reduce(network, (network1, integer) -> {
@@ -31,8 +35,17 @@ public class Main {
                                 return new NetworkState(result.network(), network2.mse() + result.mse());
                             },
                             StreamUtils::selectRight);
+
+                    builder.append(integer)
+                            .append(",")
+                            .append(state.mse())
+                            .append(",")
+                            .append(network1)
+                            .append("\n");
                     return state.network();
                 }, StreamUtils::selectRight);
+
+        Files.writeString(Path.of(".", "temp.csv"), builder);
 
         measure(trainingData, trained);
     }
@@ -62,23 +75,18 @@ public class Main {
     }
 
     private static GraphNetwork getGraphNetwork(GraphNetworkBuilder graphNetworkBuilder) {
-        var hiddenLayer = createLayer(graphNetworkBuilder, 3, 1);
+        graphNetworkBuilder.createLayer(1, 1);
+
+        /*   var hiddenLayer = createLayer(graphNetworkBuilder, 3, 1);
         var hiddenLayer1 = createLayer(graphNetworkBuilder, 3, 3);
         var hiddenLayer2 = createLayer(graphNetworkBuilder, 3, 3);
         var outputLayer = createLayer(graphNetworkBuilder, 1, 3);
 
         graphNetworkBuilder.connect(hiddenLayer, hiddenLayer1);
         graphNetworkBuilder.connect(hiddenLayer1, hiddenLayer2);
-        graphNetworkBuilder.connect(hiddenLayer2, outputLayer);
+        graphNetworkBuilder.connect(hiddenLayer2, outputLayer);*/
 
         return graphNetworkBuilder.toNetwork();
-    }
-
-    private static List<Integer> createLayer(GraphNetworkBuilder graphNetworkBuilder, int layerSize, int inputSize) {
-        return IntStream.range(0, layerSize)
-                .mapToObj(value -> {
-                    return graphNetworkBuilder.create(inputSize);
-                }).collect(Collectors.toList());
     }
 
     static Vector computeExpected(int value) {

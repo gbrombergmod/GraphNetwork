@@ -19,8 +19,7 @@ public record Data<T>(Map<Integer, T> data) {
     }
 
     double normalize(int key) {
-        var castedKey = (double) key;
-        return castedKey / (double) data.size();
+        return key;
     }
 
     public double size() {

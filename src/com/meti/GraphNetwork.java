@@ -14,8 +14,8 @@ public class GraphNetwork implements Network {
         this.topology = topology;
     }
 
-    public static Gradients backwardsOutput(Calculations results, int id, Gradients gradientSum, Vector inputs, double costDerivative) {
-        var activated = NetMath.reluDerivative(results.locate(id));
+    public static Gradients backwardsOutput(Calculations outputs, int id, Gradients gradientSum, Vector inputs, double costDerivative) {
+        var activated = NetMath.sigmoidDerivative(outputs.locate(id));
         var base = costDerivative * activated;
         var gradient = new Node(inputs, 1d).multiply(base);
         return gradientSum.add(id, costDerivative * activated, gradient);
@@ -131,13 +131,14 @@ public class GraphNetwork implements Network {
     public <T> NetworkState trainBatch(Data<T> trainingData, List<Map.Entry<Integer, T>> batch, Function<T, Vector> expected) {
         var state = batch.stream()
                 .reduce(new NetworkState(zero(), 0d), (gradientSum, entry) -> {
-                    return train(trainingData, entry.getKey(), entry.getValue(), expected);
+                    return train(trainingData, entry.getKey(), entry.getValue(), expected, gradientSum);
                 }, StreamUtils::selectRight);
 
         var batchSize = batch.size();
         var gradient = state.network()
                 .divide(batchSize)
                 .multiply(Main.LEARNING_RATE);
+
         return new NetworkState(subtract(gradient), state.mse() / batchSize);
     }
 
@@ -157,7 +158,8 @@ public class GraphNetwork implements Network {
         return forward(inputVector, topology).locate(layers.get(layers.size() - 1));
     }
 
-    public <T> NetworkState train(Data<T> data, int key, T value, Function<T, Vector> expected) {
+    @Override
+    public <T> NetworkState train(Data<T> data, int key, T value, Function<T, Vector> expected, NetworkState gradientSum) {
         var lists = computeByDepthsForward();
         var topology = lists
                 .stream()
@@ -168,14 +170,14 @@ public class GraphNetwork implements Network {
         var inputVector = Vector.from(input);
         var results = forward(inputVector, topology);
 
-        var actual = results.locate(lists.get(lists.size() - 1));
+        var actual = results.locate(lists.get(lists.size() - 1)).map(NetMath::logit);
         var error = actual.subtract(expected.apply(value)).sum();
         var mse = Math.pow(error, 2d);
 
         var costDerivative = 2 * error;
 
         var gradients = backward(inputVector, topology, results, costDerivative);
-        return new NetworkState(add(gradients.toNodes()), mse);
+        return new NetworkState(gradientSum.network().add(gradients.toNodes()), mse);
     }
 
     @Override
