@@ -54,4 +54,6 @@ public interface Network {
     int add(Node node);
 
     Network addConnection(int source, int destination);
+
+    Map<Integer, List<Integer>> topology();
 }

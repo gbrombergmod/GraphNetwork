@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Remove unused field">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d2412262-6ab1-4788-a78f-3296fa644b5c" name="Changes" comment="Add node injection">
       <change beforePath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/GraphNetwork.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/meti/MapNodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/MapNodes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/meti/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/meti/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,14 +182,7 @@
       <workItem from="1683478770624" duration="594000" />
       <workItem from="1683563431983" duration="13292000" />
       <workItem from="1683592159728" duration="5017000" />
-      <workItem from="1683599477323" duration="1180000" />
-    </task>
-    <task id="LOCAL-00012" summary="Add batches">
-      <created>1683414518936</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1683414518937</updated>
+      <workItem from="1683599477323" duration="1591000" />
     </task>
     <task id="LOCAL-00013" summary="Fix reduction">
       <created>1683414644593</created>
@@ -528,14 +520,20 @@
       <option name="project" value="LOCAL" />
       <updated>1683599811211</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Add node injection">
+      <created>1683600898528</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1683600898528</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove duplicate locations" />
     <MESSAGE value="Replace bases with a map" />
     <MESSAGE value="Break down addToNode invocations" />
     <MESSAGE value="Extract Gradients" />
@@ -560,7 +558,8 @@
     <MESSAGE value="More runs" />
     <MESSAGE value="More training things" />
     <MESSAGE value="Remove unused field" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unused field" />
+    <MESSAGE value="Add node injection" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add node injection" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

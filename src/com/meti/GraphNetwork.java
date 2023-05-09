@@ -111,6 +111,11 @@ public class GraphNetwork implements Network {
         return this;
     }
 
+    @Override
+    public Map<Integer, List<Integer>> topology() {
+        return topology;
+    }
+
     private Map<Integer, List<Integer>> computeDepthMap() {
         Map<Integer, Integer> depthMap = new HashMap<>();
         Map<Integer, Boolean> visited = new HashMap<>();

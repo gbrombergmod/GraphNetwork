@@ -3,6 +3,7 @@ package com.meti;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -79,7 +80,17 @@ public class Main {
                 var id = network.add(Node.random(1));
                 var newNetwork = network.addConnection(source, id).addConnection(id, destination);
                 network = newNetwork;
-                System.out.println(network);
+
+                var topology = network.topology();
+                System.out.println(topology.keySet()
+                        .stream()
+                        .sorted()
+                        .map(value -> {
+                            return value + "->" + topology.get(value)
+                                    .stream()
+                                    .map(Objects::toString)
+                                    .collect(Collectors.joining(", ", "(", ")"));
+                        }).collect(Collectors.joining(", ", "[", "]")));
             }
         }
     }
